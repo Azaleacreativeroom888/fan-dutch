@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie – Waldmärchen Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --forest-deep: #1a2e1a;
+      --forest-mid: #2d5a27;
+      --forest-light: #4a8c3f;
+      --forest-pale: #7ab648;
+      --moss: #5c7a3e;
+      --fern: #3d6b35;
+      --bark: #5c3d1e;
+      --bark-light: #8b6340;
+      --gold: #c9a84c;
+      --gold-light: #e8c96e;
+      --cream: #f5edd6;
+      --cream-dark: #e8d5b0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--forest-deep);
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse at 10% 90%, rgba(45,90,39,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 10%, rgba(74,140,63,0.08) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      padding: 16px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(15,30,10,0.97), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--gold); text-decoration: none; letter-spacing: 2px; }
+    .nav-logo span { color: var(--forest-pale); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--cream-dark); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 1rem; letter-spacing: 1px; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      position: relative; z-index: 10;
+      padding: 140px 48px 60px;
+      text-align: center;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 10%; width: 80%; height: 1px;
+      background: linear-gradient(to right, transparent, var(--moss), var(--gold), var(--moss), transparent);
+    }
+    .page-eyebrow { font-family: 'IM Fell English', serif; font-style: italic; color: var(--forest-pale); font-size: 0.95rem; letter-spacing: 4px; margin-bottom: 12px; }
+    .page-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); text-shadow: 0 4px 20px rgba(201,168,76,0.25); margin-bottom: 16px; }
+    .page-desc { font-family: 'IM Fell English', serif; color: var(--cream-dark); font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.8; opacity: 0.85; }
+
+    /* Filter */
+    .filter-bar {
+      position: relative; z-index: 10;
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      padding: 40px 48px 20px;
+    }
+    .filter-btn {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.88rem;
+      padding: 8px 22px;
+      border: 1px solid rgba(74,140,63,0.4);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--cream-dark);
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(45,90,39,0.5);
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    /* Gallery */
+    .gallery-wrap {
+      position: relative; z-index: 10;
+      padding: 20px 40px 80px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Masonry-style grid */
+    .gallery-grid {
+      columns: 4;
+      column-gap: 16px;
+    }
+    @media (max-width: 1100px) { .gallery-grid { columns: 3; } }
+    @media (max-width: 750px) { .gallery-grid { columns: 2; } }
+    @media (max-width: 480px) { .gallery-grid { columns: 1; } }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(74,140,63,0.2);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .gallery-item:hover { border-color: rgba(201,168,76,0.4); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-thumb {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-thumb-inner {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      transition: transform 0.5s;
+    }
+    .gallery-item:hover .gallery-thumb-inner { transform: scale(1.05); }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(15,30,10,0.92));
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+    .overlay-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.85rem;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .overlay-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--gold);
+      opacity: 0.8;
+    }
+    .overlay-tag {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      color: var(--forest-pale);
+      background: rgba(45,90,39,0.7);
+      border: 1px solid rgba(74,140,63,0.4);
+      padding: 2px 8px;
+      display: inline-block;
+      margin-bottom: 8px;
+      width: fit-content;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,20,10,0.95);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner {
+      max-width: 600px;
+      width: 90%;
+      background: linear-gradient(145deg, rgba(30,55,25,0.98), rgba(20,40,18,0.99));
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 4px;
+      overflow: hidden;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    .lightbox.open .lightbox-inner { transform: scale(1); }
+    .lightbox-img {
+      width: 100%;
+      height: 340px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem;
+      background: linear-gradient(135deg, rgba(45,90,39,0.5), rgba(26,46,26,0.8));
+    }
+    .lightbox-info { padding: 24px 28px 28px; }
+    .lightbox-title { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--cream); margin-bottom: 6px; }
+    .lightbox-original { font-family: 'IM Fell English', serif; font-style: italic; color: var(--gold); opacity: 0.8; font-size: 0.9rem; margin-bottom: 12px; }
+    .lightbox-desc { font-size: 0.88rem; color: var(--cream-dark); line-height: 1.7; opacity: 0.8; }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none;
+      color: var(--moss); font-size: 2rem;
+      cursor: pointer; transition: color 0.3s;
+      line-height: 1;
+    }
+    .lightbox-close:hover { color: var(--gold); }
+
+    footer {
+      position: relative; z-index: 10;
+      text-align: center;
+      padding: 36px 24px 28px;
+      border-top: 1px solid rgba(74,140,63,0.15);
+    }
+    .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { color: var(--moss); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 0.9rem; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-copy { color: rgba(92,122,62,0.5); font-size: 0.78rem; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Wald<span>märchen</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Startseite</a></li>
+      <li><a href="translation.html">Übersetzung</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html" class="active">Galerie</a></li>
+      <li><a href="contact.html">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <p class="page-eyebrow">✦ Bilderwelt ✦</p>
+    <h1 class="page-title">Galerie</h1>
+    <p class="page-desc">Kunstwerke, Titelseiten, Charakterstudien und Lieblingsszenen — gesammelt wie Blätter im Herbstwald.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active">Alle</button>
+    <button class="filter-btn">Cover Art</button>
+    <button class="filter-btn">Charaktere</button>
+    <button class="filter-btn">Szenen</button>
+    <button class="filter-btn">Fan Art</button>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Items will be rendered by JS for variety in heights -->
+
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lbClose">×</button>
+    <div class="lightbox-inner">
+      <div class="lightbox-img" id="lbImg"></div>
+      <div class="lightbox-info">
+        <h2 class="lightbox-title" id="lbTitle"></h2>
+        <p class="lightbox-original" id="lbOriginal"></p>
+        <p class="lightbox-desc" id="lbDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Startseite</a>
+      <a href="translation.html">Übersetzung</a>
+      <a href="blog.html">Blog</a>
+      <a href="gallery.html">Galerie</a>
+      <a href="contact.html">Kontakt</a>
+    </div>
+    <p class="footer-copy">© 2025 Waldmärchen · Mit ♥ und Magie gemacht</p>
+  </footer>
+
+  <script>
+    const items = [
+      { emoji: '🌸', h: 240, tag: 'Cover Art', title: 'Sakura no Michi', original: '桜の道 — Band 1 Cover', desc: 'Das Titelcover des ersten Bandes von Sakura no Michi, mit Yuki unter dem Kirschblütenregen.' },
+      { emoji: '⚔️', h: 320, tag: 'Szenen', title: 'Kage no Senshi', original: '影の戦士 — Kap. 7', desc: 'Die dramatische Konfrontation zwischen Ryo und dem Schattenherrscher im elften Kapitel.' },
+      { emoji: '🌙', h: 200, tag: 'Cover Art', title: 'Tsuki to Yume', original: '月と夢 — Band 1', desc: 'Minimalistische Covergestaltung im poetischen Stil von Tsuki to Yume.' },
+      { emoji: '🐉', h: 280, tag: 'Charaktere', title: 'Ryuu no Ko', original: '龍の子 — Hana Portrait', desc: 'Charakterstudie von Hana, der letzten Drachenbändigerin, mit ihrem mysteriösen Medallion.' },
+      { emoji: '🍜', h: 220, tag: 'Szenen', title: 'Shokudo no Uta', original: '食堂の歌 — Kap. 3', desc: 'Die ruhige Küchenszene mit Meister Tanaka und seinem Schüler bei der Suppenzubereitung.' },
+      { emoji: '🌿', h: 260, tag: 'Cover Art', title: 'Hana no Niwa', original: '花の庭 — Abschlussband', desc: 'Das finale Coverartwork zeigt beide Schwestern im blühenden Garten ihrer Großmutter.' },
+      { emoji: '✨', h: 300, tag: 'Fan Art', title: 'Yuki & Haruto', original: 'Fan Art von @waldgeist_draws', desc: 'Wunderschönes Fan-Artwork der Hauptcharaktere aus Sakura no Michi in Aquarell-Optik.' },
+      { emoji: '🔥', h: 240, tag: 'Szenen', title: 'Das Finale Duell', original: '影の戦士 — Kap. 12', desc: 'Doppelseitige Kampfszene aus dem letzten Kapitel von Kage no Senshi Staffel 1.' },
+      { emoji: '🌊', h: 200, tag: 'Fan Art', title: 'Mondreflexion', original: 'Fan Art von @mondkind_art', desc: 'Fankunst inspiriert von Tsuki to Yume mit zarter Aquarellpalette.' },
+      { emoji: '🦋', h: 360, tag: 'Charaktere', title: 'Schmetterlingsgöttin', original: '龍の子 — Geisterwesen', desc: 'Ein Nebencharakter aus Ryuu no Ko — die rätselhafte Geisterwesen-Hüterin des alten Waldes.' },
+      { emoji: '🏯', h: 220, tag: 'Szenen', title: 'Die alte Burg', original: '影の戦士 — Kap. 8', desc: 'Panoramablick auf die verfallene Burg, Schauplatz des epischen Mittelsegments der Serie.' },
+      { emoji: '🌺', h: 260, tag: 'Fan Art', title: 'Hana im Frühling', original: 'Fan Art von @kirschblüte_de', desc: 'Liebevoll gestaltetes Fan-Artwork von Hana aus Hana no Niwa in einem Blütenmeer.' },
+    ];
+
+    const grid = document.getElementById('galleryGrid');
+    const lb = document.getElementById('lightbox');
+    const lbClose = document.getElementById('lbClose');
+
+    items.forEach((item, i) => {
+      const colors = [
+        'linear-gradient(135deg,#2d5a27,#1a2e1a)',
+        'linear-gradient(135deg,#1a2040,#0a1020)',
+        'linear-gradient(135deg,#3d1a4a,#1a0a2a)',
+        'linear-gradient(135deg,#4a2a10,#2a1505)',
+        'linear-gradient(135deg,#1a3a4a,#0a1a25)',
+        'linear-gradient(135deg,#4a3a10,#2a2205)',
+      ];
+      const bg = colors[i % colors.length];
+
+      const el = document.createElement('div');
+      el.className = 'gallery-item';
+      el.innerHTML = `
+        <div class="gallery-thumb" style="height:${item.h}px; background:${bg};">
+          <div class="gallery-thumb-inner" style="height:${item.h}px;">${item.emoji}</div>
+          <div class="gallery-overlay">
+            <span class="overlay-tag">${item.tag.toUpperCase()}</span>
+            <div class="overlay-title">${item.title}</div>
+            <div class="overlay-sub">${item.original}</div>
+          </div>
+        </div>
+      `;
+      el.addEventListener('click', () => {
+        document.getElementById('lbImg').textContent = item.emoji;
+        document.getElementById('lbImg').style.background = bg;
+        document.getElementById('lbTitle').textContent = item.title;
+        document.getElementById('lbOriginal').textContent = item.original;
+        document.getElementById('lbDesc').textContent = item.desc;
+        lb.classList.add('open');
+      });
+      grid.appendChild(el);
+    });
+
+    lbClose.addEventListener('click', () => lb.classList.remove('open'));
+    lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+
+    // Filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.textContent;
+        document.querySelectorAll('.gallery-item').forEach((el, i) => {
+          const tag = items[i].tag;
+          el.style.display = (filter === 'Alle' || filter === tag) ? 'block' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

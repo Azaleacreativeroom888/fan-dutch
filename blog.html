@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog – Waldmärchen Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --forest-deep: #1a2e1a;
+      --forest-mid: #2d5a27;
+      --forest-light: #4a8c3f;
+      --forest-pale: #7ab648;
+      --moss: #5c7a3e;
+      --fern: #3d6b35;
+      --bark: #5c3d1e;
+      --bark-light: #8b6340;
+      --gold: #c9a84c;
+      --gold-light: #e8c96e;
+      --cream: #f5edd6;
+      --cream-dark: #e8d5b0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--forest-deep);
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse at 15% 70%, rgba(45,90,39,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 30%, rgba(74,140,63,0.08) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      padding: 16px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(15,30,10,0.97), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--gold); text-decoration: none; letter-spacing: 2px; }
+    .nav-logo span { color: var(--forest-pale); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { color: var(--cream-dark); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 1rem; letter-spacing: 1px; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    .page-header {
+      position: relative; z-index: 10;
+      padding: 140px 48px 60px;
+      text-align: center;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 10%; width: 80%; height: 1px;
+      background: linear-gradient(to right, transparent, var(--moss), var(--gold), var(--moss), transparent);
+    }
+    .page-eyebrow { font-family: 'IM Fell English', serif; font-style: italic; color: var(--forest-pale); font-size: 0.95rem; letter-spacing: 4px; margin-bottom: 12px; }
+    .page-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); text-shadow: 0 4px 20px rgba(201,168,76,0.25); margin-bottom: 16px; }
+    .page-desc { font-family: 'IM Fell English', serif; color: var(--cream-dark); font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.8; opacity: 0.85; }
+
+    .content {
+      position: relative; z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 48px 100px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 60px;
+    }
+
+    /* Featured post */
+    .post-featured {
+      background: linear-gradient(145deg, rgba(35,65,30,0.85), rgba(20,40,18,0.95));
+      border: 1px solid rgba(74,140,63,0.3);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      transition: border-color 0.3s;
+    }
+    .post-featured:hover { border-color: rgba(201,168,76,0.35); }
+    .post-thumb-featured {
+      height: 260px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      background: linear-gradient(135deg, rgba(45,90,39,0.6), rgba(26,46,26,0.9));
+    }
+    .post-thumb-featured::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(20,40,18,0.9));
+    }
+    .featured-tag {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--gold);
+      color: var(--forest-deep);
+      font-family: 'IM Fell English', serif;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      padding: 4px 12px;
+      z-index: 2;
+    }
+    .post-body { padding: 28px 32px 32px; }
+    .post-meta { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
+    .post-date { font-family: 'IM Fell English', serif; font-style: italic; color: var(--moss); font-size: 0.85rem; }
+    .post-cat { font-size: 0.7rem; letter-spacing: 2px; color: var(--forest-pale); background: rgba(45,90,39,0.4); border: 1px solid rgba(74,140,63,0.3); padding: 3px 10px; border-radius: 1px; }
+    .post-title { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--cream); line-height: 1.35; margin-bottom: 12px; }
+    .post-excerpt { font-size: 0.92rem; color: var(--cream-dark); line-height: 1.8; opacity: 0.8; margin-bottom: 20px; }
+    .read-more { font-family: 'IM Fell English', serif; color: var(--gold); font-size: 0.9rem; text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: border-color 0.3s; }
+    .read-more:hover { border-color: var(--gold); }
+
+    /* Post list */
+    .post-list { display: flex; flex-direction: column; gap: 20px; }
+    .post-item {
+      background: linear-gradient(145deg, rgba(28,52,24,0.85), rgba(20,40,18,0.9));
+      border: 1px solid rgba(74,140,63,0.2);
+      border-radius: 4px;
+      padding: 24px 26px;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 20px;
+      align-items: start;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .post-item:hover { border-color: rgba(201,168,76,0.3); transform: translateX(4px); }
+    .post-item-thumb {
+      width: 80px; height: 80px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      background: rgba(45,90,39,0.3);
+      border: 1px solid rgba(74,140,63,0.2);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .post-item-title { font-family: 'Cinzel Decorative', serif; font-size: 0.95rem; color: var(--cream); margin-bottom: 6px; line-height: 1.4; }
+    .post-item-excerpt { font-size: 0.82rem; color: var(--cream-dark); line-height: 1.6; opacity: 0.75; margin-bottom: 10px; }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 100px; height: fit-content; }
+    .sidebar-block {
+      background: linear-gradient(145deg, rgba(28,52,24,0.85), rgba(20,40,18,0.9));
+      border: 1px solid rgba(74,140,63,0.2);
+      border-radius: 4px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .sidebar-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(74,140,63,0.2);
+    }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 0.75rem;
+      font-family: 'IM Fell English', serif;
+      padding: 5px 12px;
+      border: 1px solid rgba(74,140,63,0.3);
+      color: var(--moss);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .tag:hover { background: rgba(45,90,39,0.4); color: var(--forest-pale); border-color: var(--moss); }
+    .recent-item {
+      display: flex; gap: 12px; align-items: start;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(74,140,63,0.1);
+    }
+    .recent-item:last-child { border-bottom: none; }
+    .recent-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .recent-text a { font-family: 'IM Fell English', serif; font-size: 0.85rem; color: var(--cream-dark); text-decoration: none; line-height: 1.4; display: block; margin-bottom: 4px; transition: color 0.3s; }
+    .recent-text a:hover { color: var(--gold); }
+    .recent-date { font-size: 0.72rem; color: var(--moss); font-style: italic; }
+
+    footer {
+      position: relative; z-index: 10;
+      text-align: center;
+      padding: 36px 24px 28px;
+      border-top: 1px solid rgba(74,140,63,0.15);
+    }
+    .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { color: var(--moss); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 0.9rem; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-copy { color: rgba(92,122,62,0.5); font-size: 0.78rem; letter-spacing: 1px; }
+
+    @media (max-width: 800px) {
+      .content { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Wald<span>märchen</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Startseite</a></li>
+      <li><a href="translation.html">Übersetzung</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="gallery.html">Galerie</a></li>
+      <li><a href="contact.html">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <p class="page-eyebrow">✦ Waldgedanken ✦</p>
+    <h1 class="page-title">Blog</h1>
+    <p class="page-desc">Geschichten hinter den Geschichten — Gedanken zur Welt des Manga und der Übersetzungskunst.</p>
+  </div>
+
+  <div class="content">
+    <main>
+      <!-- Featured -->
+      <div class="post-featured">
+        <div class="post-thumb-featured">
+          📖
+          <span class="featured-tag">EMPFOHLEN</span>
+        </div>
+        <div class="post-body">
+          <div class="post-meta">
+            <span class="post-date">12. Mai 2025</span>
+            <span class="post-cat">ÜBERSETZUNG</span>
+          </div>
+          <h2 class="post-title">Warum ich Manga übersetze — Eine persönliche Geschichte</h2>
+          <p class="post-excerpt">Es begann in einer kleinen Stadtbibliothek, irgendwo zwischen einem verstaubten Regal und dem Duft von altem Papier. Ich war zwölf, und zum ersten Mal hielt ich einen Band in der Hand, der mich nicht mehr loslassen sollte. Manga — so fremdartig, so vertraut, so tief...</p>
+          <a href="#" class="read-more">Weiterlesen →</a>
+        </div>
+      </div>
+
+      <!-- Post list -->
+      <div class="post-list">
+        <div class="post-item">
+          <div class="post-item-thumb">🔤</div>
+          <div>
+            <div class="post-meta">
+              <span class="post-date">3. Mai 2025</span>
+              <span class="post-cat">SPRACHE</span>
+            </div>
+            <h3 class="post-item-title">Die Kunst der Onomatopoeia: Wenn Geräusche sprechen</h3>
+            <p class="post-item-excerpt">„Pika", „Zubaaaan", „Dokidoki" — Wie übersetzt man Lautmalerei ins Deutsche, ohne die Seele des Originals zu verlieren?</p>
+            <a href="#" class="read-more">Weiterlesen →</a>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div class="post-item-thumb">🌸</div>
+          <div>
+            <div class="post-meta">
+              <span class="post-date">22. Apr. 2025</span>
+              <span class="post-cat">REVIEW</span>
+            </div>
+            <h3 class="post-item-title">Sakura no Michi: Ein Shōjo-Meisterwerk der Stille</h3>
+            <p class="post-item-excerpt">Kaum Dialoge, kaum Drama — und doch erzählt „Sakura no Michi" mehr als tausend Worte. Ein Essay über die Macht der Leerräume im Manga.</p>
+            <a href="#" class="read-more">Weiterlesen →</a>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div class="post-item-thumb">🇩🇪</div>
+          <div>
+            <div class="post-meta">
+              <span class="post-date">10. Apr. 2025</span>
+              <span class="post-cat">SPRACHE</span>
+            </div>
+            <h3 class="post-item-title">Honorifika auf Deutsch: -san, -kun, -chan — was nun?</h3>
+            <p class="post-item-excerpt">Übernehmen wir japanische Höflichkeitsformen oder passen wir sie an? Die ewige Frage bei der Manga-Lokalisierung — mit einem klaren Standpunkt.</p>
+            <a href="#" class="read-more">Weiterlesen →</a>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div class="post-item-thumb">🎨</div>
+          <div>
+            <div class="post-meta">
+              <span class="post-date">1. Apr. 2025</span>
+              <span class="post-cat">KULTUR</span>
+            </div>
+            <h3 class="post-item-title">Vom Schreibtisch des Übersetzers: Mein Arbeitsprozess</h3>
+            <p class="post-item-excerpt">Raws, Roh-Text, Lettering — wie entsteht ein fertig übersetztes Manga-Kapitel? Ein ehrlicher Blick hinter die Kulissen mit Fotos.</p>
+            <a href="#" class="read-more">Weiterlesen →</a>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div class="post-item-thumb">📚</div>
+          <div>
+            <div class="post-meta">
+              <span class="post-date">20. März 2025</span>
+              <span class="post-cat">EMPFEHLUNGEN</span>
+            </div>
+            <h3 class="post-item-title">10 Manga, die jeder deutsche Fan kennen sollte</h3>
+            <p class="post-item-excerpt">Von Klassikern bis Geheimtipps: Eine kuratierte Liste für Einsteiger und erfahrene Manga-Liebhaber — aus der Sicht einer Übersetzerin.</p>
+            <a href="#" class="read-more">Weiterlesen →</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-block">
+        <h3 class="sidebar-title">🍃 Themen</h3>
+        <div class="tag-cloud">
+          <span class="tag">Übersetzung</span>
+          <span class="tag">Sprache</span>
+          <span class="tag">Shōjo</span>
+          <span class="tag">Shōnen</span>
+          <span class="tag">Kultur</span>
+          <span class="tag">Review</span>
+          <span class="tag">Tipps</span>
+          <span class="tag">Japan</span>
+          <span class="tag">Empfehlungen</span>
+          <span class="tag">Hinter den Kulissen</span>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3 class="sidebar-title">🌲 Neue Beiträge</h3>
+        <div>
+          <div class="recent-item">
+            <span class="recent-icon">📖</span>
+            <div class="recent-text">
+              <a href="#">Warum ich Manga übersetze</a>
+              <span class="recent-date">12. Mai 2025</span>
+            </div>
+          </div>
+          <div class="recent-item">
+            <span class="recent-icon">🔤</span>
+            <div class="recent-text">
+              <a href="#">Die Kunst der Onomatopoeia</a>
+              <span class="recent-date">3. Mai 2025</span>
+            </div>
+          </div>
+          <div class="recent-item">
+            <span class="recent-icon">🌸</span>
+            <div class="recent-text">
+              <a href="#">Sakura no Michi: Ein Essay</a>
+              <span class="recent-date">22. Apr. 2025</span>
+            </div>
+          </div>
+          <div class="recent-item">
+            <span class="recent-icon">🇩🇪</span>
+            <div class="recent-text">
+              <a href="#">Honorifika auf Deutsch</a>
+              <span class="recent-date">10. Apr. 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-block" style="text-align: center;">
+        <h3 class="sidebar-title">✦ Newsletter</h3>
+        <p style="font-size: 0.84rem; color: var(--cream-dark); opacity: 0.8; line-height: 1.7; margin-bottom: 16px; font-family: 'IM Fell English', serif;">Neue Kapitel und Blogposts direkt in dein Postfach — wie ein Brief aus dem Zauberwald.</p>
+        <a href="contact.html" style="display: block; background: linear-gradient(135deg, var(--forest-mid), var(--forest-light)); color: var(--cream); text-decoration: none; padding: 10px 20px; font-family: 'IM Fell English', serif; font-size: 0.9rem; letter-spacing: 1px; border: 1px solid rgba(74,140,63,0.4); transition: all 0.3s;">🌿 Anmelden</a>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Startseite</a>
+      <a href="translation.html">Übersetzung</a>
+      <a href="blog.html">Blog</a>
+      <a href="gallery.html">Galerie</a>
+      <a href="contact.html">Kontakt</a>
+    </div>
+    <p class="footer-copy">© 2025 Waldmärchen · Mit ♥ und Magie gemacht</p>
+  </footer>
+</body>
+</html>
