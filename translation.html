@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Übersetzungslog – Waldmärchen Manga</title>
+  <title>Translation Log – Waldmärchen Manga</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --forest-deep: #1a2e1a;
@@ -20,8 +20,12 @@
       --gold-light: #e8c96e;
       --cream: #f5edd6;
       --cream-dark: #e8d5b0;
+      --memo-bg: rgba(201,168,76,0.06);
+      --memo-border: rgba(201,168,76,0.2);
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Nunito', sans-serif;
       background-color: var(--forest-deep);
@@ -30,20 +34,16 @@
       overflow-x: hidden;
     }
 
-    /* Animated background vines */
     body::before {
       content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background:
-        radial-gradient(ellipse at 20% 80%, rgba(45,90,39,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(74,140,63,0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(26,46,26,0.8) 0%, transparent 80%);
-      pointer-events: none;
-      z-index: 0;
+        radial-gradient(ellipse at 15% 60%, rgba(45,90,39,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 35%, rgba(74,140,63,0.08) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
     }
 
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0;
       width: 100%; z-index: 100;
@@ -58,220 +58,176 @@
     .nav-links a { color: var(--cream-dark); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 1rem; letter-spacing: 1px; transition: color 0.3s; }
     .nav-links a:hover, .nav-links a.active { color: var(--gold); }
 
+    /* ── PAGE HEADER ── */
     .page-header {
-      position: relative;
-      z-index: 10;
-      padding: 140px 48px 60px;
-      text-align: center;
+      position: relative; z-index: 10;
+      padding: 140px 48px 60px; text-align: center;
     }
     .page-header::after {
       content: '';
-      position: absolute;
-      bottom: 0; left: 10%; width: 80%; height: 1px;
+      position: absolute; bottom: 0; left: 10%; width: 80%; height: 1px;
       background: linear-gradient(to right, transparent, var(--moss), var(--gold), var(--moss), transparent);
     }
-    .page-eyebrow {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      color: var(--forest-pale);
-      font-size: 0.95rem;
-      letter-spacing: 4px;
-      margin-bottom: 12px;
-    }
-    .page-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      color: var(--gold);
-      text-shadow: 0 4px 20px rgba(201,168,76,0.25);
-      margin-bottom: 16px;
-    }
-    .page-desc {
-      font-family: 'IM Fell English', serif;
-      color: var(--cream-dark);
-      font-size: 1.05rem;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.8;
-      opacity: 0.85;
-    }
+    .page-eyebrow { font-family: 'IM Fell English', serif; font-style: italic; color: var(--forest-pale); font-size: 0.95rem; letter-spacing: 4px; margin-bottom: 12px; }
+    .page-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); text-shadow: 0 4px 20px rgba(201,168,76,0.25); margin-bottom: 16px; }
+    .page-desc { font-family: 'IM Fell English', serif; color: var(--cream-dark); font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.8; opacity: 0.85; }
 
-    /* Filter Bar */
-    .filter-bar {
+    /* ── MAIN CONTAINER ── */
+    .container {
       position: relative; z-index: 10;
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-      padding: 40px 48px 24px;
-    }
-    .filter-btn {
-      font-family: 'IM Fell English', serif;
-      font-size: 0.88rem;
-      padding: 8px 22px;
-      border: 1px solid rgba(74,140,63,0.4);
-      border-radius: 2px;
-      background: transparent;
-      color: var(--cream-dark);
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.3s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: rgba(45,90,39,0.5);
-      border-color: var(--gold);
-      color: var(--gold-light);
+      max-width: 760px;
+      margin: 60px auto 100px;
+      padding: 0 24px;
+      display: flex; flex-direction: column; gap: 28px;
     }
 
-    /* Main Content */
-    .content {
-      position: relative; z-index: 10;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px 48px 100px;
-    }
-
-    /* Works Grid */
-    .works-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
-    }
-    .work-card {
+    /* ── ENTRY CARD ── */
+    .entry-card {
       background: linear-gradient(145deg, rgba(30,55,25,0.9), rgba(20,40,18,0.95));
       border: 1px solid rgba(74,140,63,0.25);
       border-radius: 4px;
       overflow: hidden;
-      transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+      animation: fadeUp 0.5s ease both;
     }
-    .work-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(201,168,76,0.35);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    .entry-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+      transform: translateY(-3px);
     }
-    .work-thumb {
-      height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
-      position: relative;
-      overflow: hidden;
+
+    .entry-card:nth-child(1) { animation-delay: 0.05s; }
+    .entry-card:nth-child(2) { animation-delay: 0.10s; }
+    .entry-card:nth-child(3) { animation-delay: 0.15s; }
+    .entry-card:nth-child(4) { animation-delay: 0.20s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .work-thumb::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(20,40,18,0.8));
+
+    /* ── CARD HEADER BAR ── */
+    .entry-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px;
+      background: rgba(45,90,39,0.3);
+      border-bottom: 1px solid rgba(74,140,63,0.2);
     }
-    .work-status {
-      position: absolute; bottom: 12px; left: 16px;
+    .entry-header h2 {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      line-height: 1.3;
+      flex: 1;
+      letter-spacing: 0.3px;
+    }
+    .entry-tag {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.62rem; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 2px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .tag-mini     { background: rgba(74,140,63,0.25); color: var(--forest-pale); border: 1px solid rgba(74,140,63,0.4); }
+    .tag-trans    { background: rgba(201,168,76,0.18); color: var(--gold-light);  border: 1px solid rgba(201,168,76,0.35); }
+
+    /* ── ENTRY BODY ── */
+    .entry-body { padding: 0; }
+
+    .section {
+      padding: 16px 20px;
+      border-bottom: 1px dashed rgba(74,140,63,0.15);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
       font-family: 'IM Fell English', serif;
       font-size: 0.7rem;
-      letter-spacing: 2px;
-      padding: 4px 12px;
-      border-radius: 1px;
-      z-index: 2;
-    }
-    .status-ongoing { background: rgba(45,90,39,0.9); color: var(--forest-pale); border: 1px solid rgba(74,140,63,0.5); }
-    .status-complete { background: rgba(201,168,76,0.2); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.4); }
-    .status-hiatus { background: rgba(60,40,20,0.9); color: var(--bark-light); border: 1px solid rgba(139,99,64,0.4); }
-
-    .work-info { padding: 20px 22px 24px; }
-    .work-genre {
-      font-family: 'IM Fell English', serif;
-      font-size: 0.72rem;
-      color: var(--moss);
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
+      color: var(--moss);
       margin-bottom: 8px;
     }
-    .work-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1rem;
-      color: var(--cream);
-      margin-bottom: 6px;
-      line-height: 1.4;
+
+    .section p {
+      font-size: 0.93rem;
+      line-height: 1.85;
+      color: var(--cream-dark);
+      opacity: 0.88;
     }
-    .work-original {
+    .section p strong {
+      color: var(--gold-light);
+      font-weight: 800;
+    }
+
+    /* Original text section — slightly distinct */
+    .section.original {
+      background: rgba(26,46,26,0.4);
+    }
+    .section.original .section-label { color: var(--fern); }
+    .section.original p {
       font-family: 'IM Fell English', serif;
       font-style: italic;
-      font-size: 0.85rem;
-      color: var(--gold);
-      opacity: 0.7;
-      margin-bottom: 12px;
-    }
-    .work-desc {
-      font-size: 0.85rem;
-      color: var(--cream-dark);
-      line-height: 1.7;
-      opacity: 0.75;
-      margin-bottom: 16px;
-    }
-    .work-chapters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .chapter-pill {
-      background: rgba(45,90,39,0.4);
-      border: 1px solid rgba(74,140,63,0.3);
-      color: var(--forest-pale);
-      font-size: 0.72rem;
-      padding: 4px 10px;
-      border-radius: 2px;
-      font-family: 'Nunito', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .chapter-pill:hover {
-      background: rgba(74,140,63,0.4);
-      border-color: var(--forest-pale);
+      font-size: 0.95rem;
       color: var(--cream);
+      opacity: 0.9;
+      line-height: 1.9;
     }
-    .chapter-pill.new { border-color: var(--gold); color: var(--gold-light); }
 
-    /* Log Table */
-    .log-section { margin-top: 64px; }
-    .log-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.4rem;
+    /* Translation section */
+    .section.translation .section-label { color: var(--forest-pale); }
+    .section.translation p {
+      font-size: 0.93rem;
+      line-height: 1.9;
+    }
+
+    /* Memo section — warm amber tint */
+    .section.memo {
+      background: var(--memo-bg);
+      border-top: 1px solid var(--memo-border);
+      border-bottom: none;
+    }
+    .section.memo .section-label {
       color: var(--gold);
-      margin-bottom: 24px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(74,140,63,0.2);
-    }
-    .log-table { width: 100%; border-collapse: collapse; }
-    .log-table th {
-      font-family: 'IM Fell English', serif;
-      font-size: 0.8rem;
       letter-spacing: 2px;
-      color: var(--moss);
-      text-align: left;
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(74,140,63,0.2);
     }
-    .log-table td {
-      padding: 14px 16px;
-      font-size: 0.88rem;
+    .section.memo p {
+      font-size: 0.86rem;
+      line-height: 1.85;
       color: var(--cream-dark);
-      border-bottom: 1px solid rgba(74,140,63,0.08);
-      transition: background 0.2s;
+      opacity: 0.78;
     }
-    .log-table tr:hover td { background: rgba(45,90,39,0.15); }
-    .log-date { color: var(--moss); font-family: 'IM Fell English', serif; font-style: italic; white-space: nowrap; }
-    .log-badge {
-      font-size: 0.68rem;
-      padding: 2px 8px;
-      border-radius: 1px;
-      letter-spacing: 1px;
-    }
-    .badge-new { background: rgba(74,140,63,0.3); color: var(--forest-pale); border: 1px solid rgba(74,140,63,0.4); }
-    .badge-edit { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .section.memo p strong { color: var(--gold-light); }
 
-    footer {
-      position: relative; z-index: 10;
-      text-align: center;
-      padding: 36px 24px 28px;
-      border-top: 1px solid rgba(74,140,63,0.15);
+    /* Arrow divider between translation steps */
+    .arrow-divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 10px 0;
     }
+    .arrow-divider::before, .arrow-divider::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: rgba(74,140,63,0.2);
+    }
+    .arrow-divider span {
+      font-size: 0.75rem; color: var(--moss);
+      font-family: 'IM Fell English', serif;
+      font-style: italic; letter-spacing: 1px;
+    }
+
+    /* ── FOOTER ── */
+    footer { position: relative; z-index: 10; text-align: center; padding: 36px 24px 28px; border-top: 1px solid rgba(74,140,63,0.15); }
     .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
     .footer-links a { color: var(--moss); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 0.9rem; transition: color 0.3s; }
     .footer-links a:hover { color: var(--gold-light); }
     .footer-copy { color: rgba(92,122,62,0.5); font-size: 0.78rem; letter-spacing: 1px; }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      .page-header { padding: 120px 24px 48px; }
+      .container { margin: 40px auto 80px; }
+    }
   </style>
 </head>
 <body>
@@ -280,7 +236,7 @@
     <a href="index.html" class="nav-logo">Wald<span>märchen</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Startseite</a></li>
-      <li><a href="translation.html" class="active">Übersetzung</a></li>
+      <li><a href="translation.html" class="active">Translation</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="gallery.html">Galerie</a></li>
       <li><a href="contact.html">Kontakt</a></li>
@@ -288,213 +244,120 @@
   </nav>
 
   <div class="page-header">
-    <p class="page-eyebrow">✦ Übersetzungsarchiv ✦</p>
-    <h1 class="page-title">Übersetzungslog</h1>
-    <p class="page-desc">Alle laufenden und abgeschlossenen Manga-Übersetzungen — gepflegt wie ein Garten im Waldmärchen.</p>
+    <p class="page-eyebrow">✦ Translation Log ✦</p>
+    <h1 class="page-title">Translation</h1>
+    <p class="page-desc">Notes, discoveries, and translation decisions — gathered like leaves from the forest floor.</p>
   </div>
 
-  <!-- Filter -->
-  <div class="filter-bar">
-    <button class="filter-btn active">Alle</button>
-    <button class="filter-btn">Shōnen</button>
-    <button class="filter-btn">Shōjo</button>
-    <button class="filter-btn">Josei</button>
-    <button class="filter-btn">Seinen</button>
-    <button class="filter-btn">Laufend</button>
-    <button class="filter-btn">Abgeschlossen</button>
-  </div>
+  <div class="container">
 
-  <div class="content">
-    <!-- Works -->
-    <div class="works-grid">
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #2d5a27, #1a2e1a);">
-          🌸
-          <span class="work-status status-ongoing">LAUFEND</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Shōjo · Romance</div>
-          <h3 class="work-title">Sakura no Michi</h3>
-          <div class="work-original">桜の道 · Der Weg der Kirschblüten</div>
-          <p class="work-desc">Yuki, ein schüchternes Mädchen, entdeckt beim Kirschblütenfall ihre wahren Gefühle für ihren Kindheitsfreund.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1</span>
-            <span class="chapter-pill">Kap. 2</span>
-            <span class="chapter-pill">Kap. 3</span>
-            <span class="chapter-pill">Kap. 4</span>
-            <span class="chapter-pill new">Kap. 5 ✦</span>
-          </div>
-        </div>
+    <!-- Entry 1: ミニ知識 -->
+    <div class="entry-card">
+      <div class="entry-header">
+        <h2>アルファベットは Alpha と Beta！？</h2>
+        <span class="entry-tag tag-mini">ミニ知識</span>
       </div>
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #1a2040, #0a1020);">
-          ⚔️
-          <span class="work-status status-ongoing">LAUFEND</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Shōnen · Action</div>
-          <h3 class="work-title">Kage no Senshi</h3>
-          <div class="work-original">影の戦士 · Krieger der Schatten</div>
-          <p class="work-desc">In einem feudalen Fantasiereich kämpft ein einsamer Krieger zwischen Licht und Schatten um die Zukunft seines Volkes.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1–5</span>
-            <span class="chapter-pill">Kap. 6–10</span>
-            <span class="chapter-pill new">Kap. 11–12 ✦</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #3d1a4a, #1a0a2a);">
-          🌙
-          <span class="work-status status-hiatus">PAUSE</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Josei · Poesie</div>
-          <h3 class="work-title">Tsuki to Yume</h3>
-          <div class="work-original">月と夢 · Mond und Traum</div>
-          <p class="work-desc">Eine poetische Manga-Reihe über eine Schriftstellerin, die in ihren Träumen in eine andere Welt versetzt wird.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1</span>
-            <span class="chapter-pill">Kap. 2</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #4a2a10, #2a1505);">
-          🍜
-          <span class="work-status status-complete">ABGESCHLOSSEN</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Seinen · Slice of Life</div>
-          <h3 class="work-title">Shokudo no Uta</h3>
-          <div class="work-original">食堂の歌 · Das Lied des Restaurants</div>
-          <p class="work-desc">Eine Ode ans Kochen: Ein alternder Koch und sein junger Lehrling entdecken gemeinsam die Seele der japanischen Küche.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1–8</span>
-            <span class="chapter-pill">Kap. 9–16</span>
-            <span class="chapter-pill">Kap. 17–22</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #1a3a4a, #0a1a25);">
-          🐉
-          <span class="work-status status-ongoing">LAUFEND</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Shōnen · Fantasy</div>
-          <h3 class="work-title">Ryuu no Ko</h3>
-          <div class="work-original">龍の子 · Kind des Drachen</div>
-          <p class="work-desc">Ein Waisenmädchen entdeckt, dass sie die letzte Nachfahrin eines legendären Drachenbändiger-Clans ist.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1–3</span>
-            <span class="chapter-pill new">Kap. 4 ✦</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="work-card">
-        <div class="work-thumb" style="background: linear-gradient(135deg, #2a4a2a, #1a2e1a);">
-          🌿
-          <span class="work-status status-complete">ABGESCHLOSSEN</span>
-        </div>
-        <div class="work-info">
-          <div class="work-genre">Shōjo · Drama</div>
-          <h3 class="work-title">Hana no Niwa</h3>
-          <div class="work-original">花の庭 · Der Blumengarten</div>
-          <p class="work-desc">Zwei Schwestern, getrennt durch Schicksal, finden sich im Garten ihrer verstorbenen Großmutter wieder.</p>
-          <div class="work-chapters">
-            <span class="chapter-pill">Kap. 1–10</span>
-            <span class="chapter-pill">Kap. 11–18</span>
-          </div>
+      <div class="entry-body">
+        <div class="section">
+          <div class="section-label">記事</div>
+          <p>ギリシャ語の最初の2文字が α（alpha）と β（beta）――それをまとめて呼んだのが <strong>alphabet</strong>。</p>
         </div>
       </div>
     </div>
 
-    <!-- Update Log -->
-    <div class="log-section">
-      <h2 class="log-title">🌿 Aktualisierungsprotokoll</h2>
-      <table class="log-table">
-        <thead>
-          <tr>
-            <th>DATUM</th>
-            <th>WERK</th>
-            <th>KAPITEL</th>
-            <th>ART</th>
-            <th>ANMERKUNG</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="log-date">12. Mai 2025</td>
-            <td>Sakura no Michi</td>
-            <td>Kapitel 5</td>
-            <td><span class="log-badge badge-new">NEU</span></td>
-            <td>Erstsetzung abgeschlossen</td>
-          </tr>
-          <tr>
-            <td class="log-date">10. Mai 2025</td>
-            <td>Kage no Senshi</td>
-            <td>Kapitel 11–12</td>
-            <td><span class="log-badge badge-new">NEU</span></td>
-            <td>Doppelkapitel · Kampfszenen überarbeitet</td>
-          </tr>
-          <tr>
-            <td class="log-date">8. Mai 2025</td>
-            <td>Ryuu no Ko</td>
-            <td>Kapitel 4</td>
-            <td><span class="log-badge badge-new">NEU</span></td>
-            <td>Erstübersetzung</td>
-          </tr>
-          <tr>
-            <td class="log-date">3. Mai 2025</td>
-            <td>Sakura no Michi</td>
-            <td>Kapitel 3</td>
-            <td><span class="log-badge badge-edit">EDIT</span></td>
-            <td>Dialogüberarbeitung — natürlicheres Deutsch</td>
-          </tr>
-          <tr>
-            <td class="log-date">28. Apr. 2025</td>
-            <td>Shokudo no Uta</td>
-            <td>Kapitel 22</td>
-            <td><span class="log-badge badge-new">NEU</span></td>
-            <td>Abschlusskapitel — Serie vollständig!</td>
-          </tr>
-          <tr>
-            <td class="log-date">20. Apr. 2025</td>
-            <td>Hana no Niwa</td>
-            <td>Kapitel 11–18</td>
-            <td><span class="log-badge badge-new">NEU</span></td>
-            <td>Finales Kapitelpaket · Serie abgeschlossen</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Entry 2: ミニ知識 -->
+    <div class="entry-card">
+      <div class="entry-header">
+        <h2>"actually" は「実は」だけじゃない</h2>
+        <span class="entry-tag tag-mini">ミニ知識</span>
+      </div>
+      <div class="entry-body">
+        <div class="section">
+          <div class="section-label">意味</div>
+          <p>期待と違う事実を軽く修正するニュアンス。</p>
+        </div>
+        <div class="section">
+          <div class="section-label">例文</div>
+          <p><strong>I actually like it.</strong>（意外とそれ好き）</p>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Entry 3: 翻訳 長文 -->
+    <div class="entry-card">
+      <div class="entry-header">
+        <h2>「このセリフどう訳す問題」</h2>
+        <span class="entry-tag tag-trans">翻訳</span>
+      </div>
+      <div class="entry-body">
+
+        <div class="section original">
+          <div class="section-label">原文（ムラサキキリンのチャーリーは様子が変 / デイヴィッド・D・レヴァイン）</div>
+          <p>Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy.</p>
+        </div>
+
+        <div class="section translation">
+          <div class="section-label">翻訳</div>
+          <p>独我論的妄想は、しばしば単に正当性への全般的な鈍感さの初期症状とみなされています。</p>
+          <div class="arrow-divider"><span>修正</span></div>
+          <p>独我論的妄想は、しばしば他者の人格の正当性やときにはその存在への全般的鈍感さの単なる初期症状とみなされています。</p>
+        </div>
+
+        <div class="section memo">
+          <div class="section-label">📝 判断メモ</div>
+          <p>
+            「solipsistic」は「唯我的」よりも<strong>「独我的」</strong>が正確（自我とその所産だけが実在するという立場）。<br>
+            「唯我的」は単に自己中心的な態度を指すので意味が変わってしまう。<br>
+            「initial manifestation」＝初期症状。<br>
+            「general」の訳に迷い→「全般的な」（ある事柄の全体に及ぶさま）に落ち着いたが、まだ少し引っかかりがある。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Entry 4: 翻訳 -->
+    <div class="entry-card">
+      <div class="entry-header">
+        <h2>「このセリフどう訳す問題」</h2>
+        <span class="entry-tag tag-trans">翻訳</span>
+      </div>
+      <div class="entry-body">
+
+        <div class="section original">
+          <div class="section-label">原文</div>
+          <p>The protagonist kept drawing, even when no one believed in her story.</p>
+        </div>
+
+        <div class="section translation">
+          <div class="section-label">翻訳</div>
+          <p>誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。</p>
+        </div>
+
+        <div class="section memo">
+          <div class="section-label">📝 判断メモ</div>
+          <p>
+            「believed in」→ 受け身ぽく「信じてもらえない」にしてニュアンスを出す。<br>
+            <strong>「even when」＝「それでも」</strong> がこの文の軸。<br>
+            「〜のに、彼女は〜した」という対比構造を日本語でも活かすのがポイント。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.container -->
 
   <footer>
     <div class="footer-links">
       <a href="index.html">Startseite</a>
-      <a href="translation.html">Übersetzung</a>
+      <a href="translation.html">Translation</a>
       <a href="blog.html">Blog</a>
       <a href="gallery.html">Galerie</a>
       <a href="contact.html">Kontakt</a>
     </div>
-    <p class="footer-copy">© 2025 Waldmärchen · Mit ♥ und Magie gemacht</p>
+    <p class="footer-copy">© 2026 Waldmärchen · All translations are original work</p>
   </footer>
 
-  <script>
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>
