@@ -862,654 +862,347 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
       font-weight: 900;
-    /* ── FLOATING PARTICLES ── */
-    .particles {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(120,200,80,0.6), transparent);
-      animation: drift linear infinite;
-    }
-    @keyframes drift {
-      0%   { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 0.6; }
-      100% { transform: translateY(-10vh) translateX(var(--dx)) scale(1); opacity: 0; }
+      color: var(--cream);
+      margin-bottom: 16px;
     }
 
-    /* ── TREES BACKGROUND ── */
-    .forest-bg {
-      position: fixed;
-      bottom: 0; left: 0;
-      width: 100%; height: 60vh;
-      pointer-events: none;
-      z-index: 0;
+    .footer-brand-desc {
+      font-size: 0.85rem;
+      color: rgba(245,240,232,0.45);
+      line-height: 1.7;
+      max-width: 260px;
     }
-    .tree {
-      position: absolute;
-      bottom: 0;
-    }
-    .tree-trunk {
-      width: 14px;
-      background: linear-gradient(to right, var(--bark), var(--bark-light), var(--bark));
-      margin: 0 auto;
-      border-radius: 3px 3px 0 0;
-    }
-    .tree-crown {
-      width: 0;
-      height: 0;
-      border-left: solid transparent;
-      border-right: solid transparent;
-      border-bottom: solid;
-      border-bottom-color: var(--forest-mid);
-      margin: 0 auto;
-      position: relative;
-    }
-    .tree-crown::before, .tree-crown::after {
-      content: '';
-      position: absolute;
-      width: 0; height: 0;
-      border-left: solid transparent;
-      border-right: solid transparent;
-      border-bottom: solid;
-    }
-    .tree-crown::before { border-bottom-color: var(--forest-light); }
-    .tree-crown::after  { border-bottom-color: var(--fern); }
 
-    /* ── NAVIGATION ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 16px 48px;
+    .footer-col-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(245,240,232,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cream); }
+
+    .footer-bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(15,30,10,0.95), transparent);
-      backdrop-filter: blur(2px);
     }
-    .nav-logo {
-      font-family: 'Cinzel Decorative', serif;
+
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.25);
+    }
+
+    .footer-flag {
       font-size: 1.2rem;
-      color: var(--gold);
-      text-decoration: none;
-      text-shadow: 0 0 20px rgba(201,168,76,0.5);
-      letter-spacing: 2px;
-    }
-    .nav-logo span { color: var(--forest-pale); }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a {
-      color: var(--cream-dark);
-      text-decoration: none;
-      font-family: 'IM Fell English', serif;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      transition: color 0.3s, text-shadow 0.3s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 1px;
-      background: var(--gold);
-      transition: width 0.3s;
-    }
-    .nav-links a:hover { color: var(--gold-light); text-shadow: 0 0 12px rgba(201,168,76,0.4); }
-    .nav-links a:hover::after { width: 100%; }
-    .nav-links a.active { color: var(--gold); }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      text-align: center;
-      padding: 120px 24px 80px;
-    }
-    .hero-eyebrow {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      color: var(--forest-pale);
-      font-size: 1rem;
-      letter-spacing: 4px;
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeUp 1s 0.3s forwards;
-    }
-    .hero-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      color: var(--gold);
-      line-height: 1.15;
-      text-shadow: 0 4px 30px rgba(201,168,76,0.3), 0 0 60px rgba(74,140,63,0.2);
-      opacity: 0;
-      animation: fadeUp 1s 0.5s forwards;
-      margin-bottom: 12px;
-    }
-    .hero-title span {
-      display: block;
-      font-size: 0.55em;
-      color: var(--forest-pale);
-      letter-spacing: 6px;
-      text-shadow: none;
-    }
-    .hero-subtitle {
-      font-family: 'IM Fell English', serif;
-      font-size: 1.15rem;
-      color: var(--cream-dark);
-      max-width: 560px;
-      line-height: 1.8;
-      opacity: 0;
-      animation: fadeUp 1s 0.8s forwards;
-      margin-bottom: 48px;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeUp 1s 1.1s forwards;
-    }
-    .btn {
-      font-family: 'IM Fell English', serif;
-      font-size: 1rem;
-      padding: 14px 36px;
-      border-radius: 2px;
-      text-decoration: none;
-      letter-spacing: 2px;
-      transition: all 0.35s;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--forest-mid), var(--forest-light));
-      color: var(--cream);
-      border: 1px solid var(--forest-pale);
-      box-shadow: 0 4px 20px rgba(45,90,39,0.4);
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--forest-light), var(--forest-pale));
-      box-shadow: 0 8px 30px rgba(74,140,63,0.5);
-      transform: translateY(-2px);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--gold-light);
-      border: 1px solid var(--gold);
-      box-shadow: 0 0 0 0 rgba(201,168,76,0);
-    }
-    .btn-secondary:hover {
-      background: rgba(201,168,76,0.1);
-      box-shadow: 0 0 20px rgba(201,168,76,0.2);
-      transform: translateY(-2px);
     }
 
-    /* ── SCROLL INDICATOR ── */
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 1s 2s forwards;
-    }
-    .scroll-hint span {
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      color: var(--moss);
-      font-family: 'IM Fell English', serif;
-    }
-    .scroll-leaf {
-      width: 24px;
-      animation: bounce 2s infinite;
-      filter: drop-shadow(0 0 6px rgba(74,140,63,0.5));
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(8px); }
-    }
-
-    /* ── DIVIDER ── */
-    .forest-divider {
-      position: relative;
-      text-align: center;
-      margin: 0;
-      height: 60px;
-      z-index: 10;
-    }
-    .forest-divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 5%;
-      width: 90%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--moss), var(--gold), var(--moss), transparent);
-    }
-    .divider-icon {
-      position: relative;
-      display: inline-block;
-      background: var(--forest-deep);
-      padding: 0 20px;
-      font-size: 1.4rem;
-    }
-
-    /* ── FEATURED SECTION ── */
-    .section {
-      position: relative;
-      z-index: 10;
-      padding: 80px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .section-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.8rem;
-      color: var(--gold);
-      text-align: center;
-      margin-bottom: 8px;
-    }
-    .section-sub {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      text-align: center;
-      color: var(--moss);
-      margin-bottom: 56px;
-      font-size: 1rem;
-      letter-spacing: 1px;
-    }
-
-    /* ── CARDS ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-    }
-    .card {
-      background: linear-gradient(145deg, rgba(30,55,25,0.9), rgba(20,40,18,0.95));
-      border: 1px solid rgba(74,140,63,0.3);
-      border-radius: 4px;
-      overflow: hidden;
-      transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
-      cursor: pointer;
-      position: relative;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(74,140,63,0.1), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.4); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
-    .card:hover::before { opacity: 1; }
-    .card-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      background: linear-gradient(135deg, var(--forest-mid), var(--forest-deep));
-      position: relative;
-      overflow: hidden;
-    }
-    .card-img-placeholder {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, rgba(45,90,39,0.8), rgba(26,46,26,0.9));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      position: relative;
-    }
-    .card-img-placeholder::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 20px,
-        rgba(74,140,63,0.05) 20px,
-        rgba(74,140,63,0.05) 40px
+    /* ─── MONDRIAN ACCENT ─── */
+    .mondrian-bar {
+      height: 6px;
+      background: linear-gradient(90deg,
+        var(--delft-blue) 0% 40%,
+        var(--tulip-red) 40% 60%,
+        #f5c518 60% 75%,
+        white 75% 100%
       );
-    }
-    .card-tag {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(45,90,39,0.9);
-      color: var(--gold-light);
-      font-family: 'IM Fell English', serif;
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border: 1px solid rgba(201,168,76,0.3);
-      letter-spacing: 1px;
-    }
-    .card-body { padding: 24px; }
-    .card-title {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1rem;
-      color: var(--cream);
-      margin-bottom: 8px;
-    }
-    .card-desc {
-      font-size: 0.88rem;
-      color: var(--cream-dark);
-      line-height: 1.7;
-      opacity: 0.8;
-    }
-    .card-meta {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      font-size: 0.75rem;
-      color: var(--moss);
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-    }
-
-    /* ── ABOUT STRIP ── */
-    .about-strip {
       position: relative;
-      z-index: 10;
-      background: linear-gradient(135deg, rgba(30,55,25,0.6), rgba(45,90,39,0.3));
-      border-top: 1px solid rgba(74,140,63,0.2);
-      border-bottom: 1px solid rgba(74,140,63,0.2);
-      padding: 72px 48px;
-      text-align: center;
-    }
-    .about-text {
-      max-width: 700px;
-      margin: 0 auto;
-      font-family: 'IM Fell English', serif;
-      font-size: 1.15rem;
-      line-height: 2;
-      color: var(--cream-dark);
-    }
-    .about-text strong { color: var(--gold); }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      padding: 48px 24px 32px;
-      border-top: 1px solid rgba(74,140,63,0.15);
-    }
-    .footer-logo {
-      font-family: 'Cinzel Decorative', serif;
-      color: var(--gold);
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-    }
-    .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 24px; }
-    .footer-links a {
-      color: var(--moss);
-      text-decoration: none;
-      font-family: 'IM Fell English', serif;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-    .footer-links a:hover { color: var(--gold-light); }
-    .footer-copy { color: rgba(92,122,62,0.5); font-size: 0.78rem; letter-spacing: 1px; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      z-index: 1;
     }
 
-    /* ── MAGIC GLOW RING ── */
-    .glow-ring {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(74,140,63,0.07) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      animation: pulse 6s ease-in-out infinite;
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    @keyframes pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-      50%       { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating particles -->
-  <div class="particles" id="particles"></div>
-
-  <!-- SVG Forest Background -->
-  <div class="forest-bg" id="forestBg"></div>
-
-  <!-- Navigation -->
+  <!-- NAVIGATION -->
   <nav>
-    <a href="index.html" class="nav-logo">Wald<span>märchen</span></a>
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      Stripwolk
+    </a>
     <ul class="nav-links">
-      <li><a href="index.html" class="active">Startseite</a></li>
-      <li><a href="translation.html">Übersetzung</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Galerij</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="gallery.html">Galerie</a></li>
-      <li><a href="contact.html">Kontakt</a></li>
+      <li><a href="translation.html">Vertaallog</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="hero">
-    <div class="glow-ring"></div>
-    <p class="hero-eyebrow">✦ Willkommen im Zauberwald ✦</p>
-    <h1 class="hero-title">
-      Waldmärchen<br>
-      <span>Manga auf Deutsch</span>
-    </h1>
-    <p class="hero-subtitle">
-      Tauche ein in die Welt der japanischen Manga, übersetzt und aufbereitet<br>
-      mit Liebe — mitten im Herzen des deutschen Märchenwaldes.
-    </p>
-    <div class="hero-cta">
-      <a href="translation.html" class="btn btn-primary">🌿 Übersetzungen entdecken</a>
-      <a href="gallery.html" class="btn btn-secondary">🍄 Zur Galerie</a>
+    <div class="hero-left">
+      <div class="hero-windmill">⚙</div>
+      <div class="hero-tag">Nederlandse Manga — Est. 2024</div>
+      <h1 class="hero-title">
+        Verhalen<br>die <em>leven</em><br>in strips.
+      </h1>
+      <p class="hero-desc">
+        Originele manga en strips in het Nederlands. Van fantasy tot slice-of-life — door Nederlandse makers, voor de wereld.
+      </p>
+      <div class="hero-buttons">
+        <a href="gallery.html" class="btn-primary">Lees nu gratis →</a>
+        <a href="blog.html" class="btn-outline">Over ons</a>
+      </div>
     </div>
 
-    <div class="scroll-hint">
-      <span>WEITERLESEN</span>
-      <svg class="scroll-leaf" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 4C8 4 5 10 5 14c0 2.5 1.5 5 4 6l3 3 3-3c2.5-1 4-3.5 4-6 0-4-3-10-7-10z" fill="#4a8c3f"/>
-        <line x1="12" y1="10" x2="12" y2="20" stroke="#1a2e1a" stroke-width="1.5"/>
-      </svg>
+    <div class="hero-right">
+      <div class="manga-showcase">
+        <div class="manga-card">
+          <div class="manga-card-art">🌷</div>
+          <div class="manga-card-inner">
+            <div class="manga-card-title">Tulpenstad</div>
+            <div class="manga-card-ep">Aflevering 01</div>
+          </div>
+        </div>
+        <div class="manga-card">
+          <div class="manga-card-art">🌊</div>
+          <div class="manga-card-inner">
+            <div class="manga-card-title">Poldergeest</div>
+            <div class="manga-card-ep">Aflevering 07</div>
+          </div>
+        </div>
+        <div class="manga-card">
+          <div class="manga-card-art">🌿</div>
+          <div class="manga-card-inner">
+            <div class="manga-card-title">Windkind</div>
+            <div class="manga-card-ep">Aflevering 03</div>
+          </div>
+        </div>
+        <div class="manga-card">
+          <div class="manga-card-art">⭐</div>
+          <div class="manga-card-inner">
+            <div class="manga-card-title">Kanaaldromen</div>
+            <div class="manga-card-ep">Aflevering 12</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Divider -->
-  <div class="forest-divider"><span class="divider-icon">🌲</span></div>
+  <!-- MONDRIAN BAR -->
+  <div class="mondrian-bar"></div>
 
-  <!-- Featured Works -->
-  <div class="section">
-    <h2 class="section-title">Neue Übersetzungen</h2>
-    <p class="section-sub">Frisch aus dem Zauberwald — handverlesen für dich</p>
-    <div class="cards-grid">
-      <div class="card">
-        <div class="card-img-placeholder">
-          🌸
-          <span class="card-tag">Neu</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Sakura no Michi</h3>
-          <p class="card-desc">Eine berührende Geschichte über Freundschaft und Wachstum im Land der fallenden Kirschblüten.</p>
-          <div class="card-meta">
-            <span>📖 Kapitel 1–5</span>
-            <span>🌿 Shōjo</span>
-          </div>
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item">Nieuw verhaal beschikbaar</span>
+      <span class="marquee-item">Wekelijkse updates</span>
+      <span class="marquee-item">Gratis te lezen</span>
+      <span class="marquee-item">Nederlandse manga</span>
+      <span class="marquee-item">Originele strips</span>
+      <span class="marquee-item">Community van makers</span>
+      <span class="marquee-item">Nieuw verhaal beschikbaar</span>
+      <span class="marquee-item">Wekelijkse updates</span>
+      <span class="marquee-item">Gratis te lezen</span>
+      <span class="marquee-item">Nederlandse manga</span>
+      <span class="marquee-item">Originele strips</span>
+      <span class="marquee-item">Community van makers</span>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <section class="section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Uitgelicht</div>
+        <h2 class="section-title">Nu in de spotlight</h2>
+      </div>
+      <a href="gallery.html" class="section-link">Alle series bekijken →</a>
+    </div>
+
+    <div class="featured-grid reveal">
+      <div class="featured-main">
+        <div class="featured-main-gradient"></div>
+        <div class="featured-main-art">🌷</div>
+        <span class="featured-badge">✦ Nieuw hoofdstuk</span>
+        <h3 class="featured-main-title">Tulpenstad:<br>De Blauwe Brug</h3>
+        <div class="featured-main-meta">Fantasy · Aflevering 08 · 42 pagina's</div>
+      </div>
+
+      <div class="featured-sub">
+        <div class="featured-sub-art">🌊</div>
+        <div class="featured-sub-body">
+          <div class="featured-sub-genre">Actie · Avontuur</div>
+          <div class="featured-sub-title">Poldergeest</div>
+          <div class="featured-sub-desc">Een jonge detective ontdekt bovennatuurlijke krachten onder de dijken van Amsterdam.</div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-img-placeholder">
-          ⚔️
-          <span class="card-tag">Beliebt</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Kage no Senshi</h3>
-          <p class="card-desc">Krieger der Schatten: Ein Abenteuer zwischen Ehre und Verrat in einer feudalen Fantasiewelt.</p>
-          <div class="card-meta">
-            <span>📖 Kapitel 1–12</span>
-            <span>🌿 Shōnen</span>
-          </div>
+
+      <div class="featured-sub">
+        <div class="featured-sub-art">🌿</div>
+        <div class="featured-sub-body">
+          <div class="featured-sub-genre">Slice-of-life · Romance</div>
+          <div class="featured-sub-title">Windkind</div>
+          <div class="featured-sub-desc">Een rustig verhaal over vriendschap en groei langs de Zeeuwse kust.</div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-img-placeholder">
-          🌙
-          <span class="card-tag">Coming Soon</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Tsuki to Yume</h3>
-          <p class="card-desc">Der Mond und der Traum — eine Poesie in Manga-Form, die durch die Nacht flüstert.</p>
-          <div class="card-meta">
-            <span>📖 Demnächst</span>
-            <span>🌿 Josei</span>
-          </div>
-        </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-section reveal">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">24<span>+</span></div>
+        <div class="stat-label">Actieve series</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">1<span>K</span></div>
+        <div class="stat-label">Pagina's gepubliceerd</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">18<span>+</span></div>
+        <div class="stat-label">Makers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">52<span>K</span></div>
+        <div class="stat-label">Lezers per maand</div>
       </div>
     </div>
   </div>
 
-  <!-- Divider -->
-  <div class="forest-divider"><span class="divider-icon">🍃</span></div>
+  <!-- BLOG -->
+  <section class="section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Journaal</div>
+        <h2 class="section-title">Laatste berichten</h2>
+      </div>
+      <a href="blog.html" class="section-link">Alle artikelen →</a>
+    </div>
 
-  <!-- About Strip -->
-  <div class="about-strip">
-    <p class="about-text">
-      <strong>Waldmärchen</strong> ist ein liebevolles Projekt zur Verbreitung von<br>
-      japanischem Manga in deutscher Sprache. Wie ein alter Baum im Zauberwald<br>
-      wachsen unsere Übersetzungen Seite für Seite — mit Sorgfalt, Leidenschaft<br>
-      und einem Hauch von <strong>Märchenzauber</strong>.
-    </p>
-  </div>
-
-  <!-- Recent Blog -->
-  <div class="section">
-    <h2 class="section-title">Aus dem Blog</h2>
-    <p class="section-sub">Gedanken, Neuigkeiten und Waldgeheimnisse</p>
-    <div class="cards-grid">
-      <div class="card">
-        <div class="card-body" style="padding: 28px;">
-          <div class="card-meta" style="margin-bottom: 12px; margin-top: 0;">🗓 12. Mai 2025</div>
-          <h3 class="card-title">Warum ich Manga übersetze</h3>
-          <p class="card-desc">Meine Geschichte mit Manga begann in einer kleinen Bibliothek — und führte mich in einen ganz anderen Wald...</p>
-          <div style="margin-top: 20px;">
-            <a href="blog.html" style="color: var(--gold); font-family: 'IM Fell English', serif; font-size: 0.88rem; text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3);">Weiterlesen →</a>
-          </div>
+    <div class="blog-grid reveal">
+      <div class="blog-card">
+        <div class="blog-card-thumb">📖</div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">15 mei 2026</div>
+          <div class="blog-card-title">Hoe we manga vertalen zonder de sfeer te verliezen</div>
+          <div class="blog-card-excerpt">Onze vertaalfilosofie: van Japanse onomatopee tot Nederlandse straattaal — een kijkje achter de schermen.</div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-body" style="padding: 28px;">
-          <div class="card-meta" style="margin-bottom: 12px; margin-top: 0;">🗓 3. Mai 2025</div>
-          <h3 class="card-title">Die Kunst der Onomatopoeia</h3>
-          <p class="card-desc">Wie übersetzt man Geräusche? „Pika" und „Zap" — Ein Einblick in die faszinierende Welt der Klangwörter im Manga.</p>
-          <div style="margin-top: 20px;">
-            <a href="blog.html" style="color: var(--gold); font-family: 'IM Fell English', serif; font-size: 0.88rem; text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3);">Weiterlesen →</a>
-          </div>
+      <div class="blog-card">
+        <div class="blog-card-thumb">🎨</div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">8 mei 2026</div>
+          <div class="blog-card-title">Nieuwe maker spotlight: Ilse van der Berg</div>
+          <div class="blog-card-excerpt">We spraken met de illustratrice achter Tulpenstad over haar creatieve proces en inspiratie uit Delftse kunst.</div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-thumb">🏆</div>
+        <div class="blog-card-body">
+          <div class="blog-card-date">1 mei 2026</div>
+          <div class="blog-card-title">Stripwolk wint de Gouden Pen Award 2026</div>
+          <div class="blog-card-excerpt">We zijn vereerd om de beste digitale stripuitgever van het jaar te zijn genomineerd én gewonnen!</div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Footer -->
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section reveal">
+    <div class="newsletter-eyebrow">✦ Nieuwsbrief</div>
+    <h2 class="newsletter-title">Mis geen enkel<br><em>nieuw hoofdstuk</em></h2>
+    <p class="newsletter-sub">Schrijf je in en ontvang wekelijks een overzicht van nieuwe afleveringen, maker-interviews en achtergrondverhalen.</p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="jouw@emailadres.nl">
+      <button class="newsletter-btn">Inschrijven</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">🌲 Waldmärchen</div>
-    <div class="footer-links">
-      <a href="index.html">Startseite</a>
-      <a href="translation.html">Übersetzung</a>
-      <a href="blog.html">Blog</a>
-      <a href="gallery.html">Galerie</a>
-      <a href="contact.html">Kontakt</a>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Stripwolk</div>
+        <p class="footer-brand-desc">Het thuis voor originele Nederlandse manga en strips. Gratis, creatief, en altijd groeiend.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Lezen</div>
+        <ul class="footer-links">
+          <li><a href="gallery.html">Galerij</a></li>
+          <li><a href="#">Nieuwste series</a></li>
+          <li><a href="#">Populaire strips</a></li>
+          <li><a href="#">Genres</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <ul class="footer-links">
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="translation.html">Vertaallog</a></li>
+          <li><a href="#">Over Stripwolk</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Sociaal</div>
+        <ul class="footer-links">
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">Bluesky</a></li>
+          <li><a href="#">Discord</a></li>
+        </ul>
+      </div>
     </div>
-    <p class="footer-copy">© 2025 Waldmärchen · Mit ♥ und Magie gemacht</p>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Stripwolk. Alle rechten voorbehouden.</div>
+      <div class="footer-flag">🇳🇱</div>
+    </div>
   </footer>
 
   <script>
-    // Floating particles
-    const container = document.getElementById('particles');
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 8 + 3;
-      p.style.cssText = `
-        width: ${size}px; height: ${size}px;
-        left: ${Math.random() * 100}%;
-        animation-duration: ${Math.random() * 15 + 10}s;
-        animation-delay: ${Math.random() * 15}s;
-        --dx: ${(Math.random() - 0.5) * 200}px;
-        opacity: ${Math.random() * 0.5 + 0.1};
-      `;
-      container.appendChild(p);
-    }
-
-    // Draw SVG trees
-    const fb = document.getElementById('forestBg');
-    const W = window.innerWidth;
-    const treeConfigs = [];
-    for (let i = 0; i < 20; i++) {
-      const x = (i / 19) * W + (Math.random() - 0.5) * 80;
-      const h = Math.random() * 200 + 150;
-      const dark = Math.random() > 0.5;
-      treeConfigs.push({ x, h, dark });
-    }
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%');
-    svg.style.cssText = 'position:absolute;bottom:0;left:0;width:100%;height:100%';
-
-    treeConfigs.sort((a,b) => a.h - b.h).forEach(({ x, h, dark }) => {
-      const tW = h * 0.25;
-      const trunkH = h * 0.3;
-      // Trunk
-      const trunk = document.createElementNS(svgNS, 'rect');
-      trunk.setAttribute('x', x - 5); trunk.setAttribute('y', 700 - trunkH);
-      trunk.setAttribute('width', 10); trunk.setAttribute('height', trunkH);
-      trunk.setAttribute('fill', dark ? '#3d2510' : '#5c3d1e');
-      svg.appendChild(trunk);
-      // Crowns
-      const colors = dark
-        ? ['#1a2e1a', '#243d20', '#2d5a27']
-        : ['#2d5a27', '#3d6b35', '#4a8c3f'];
-      [1, 0.75, 0.5].forEach((scale, i) => {
-        const poly = document.createElementNS(svgNS, 'polygon');
-        const ch = h * 0.45 * scale;
-        const cw = tW * scale;
-        const cy = 700 - trunkH - (i * h * 0.18);
-        poly.setAttribute('points', `${x},${cy - ch} ${x - cw},${cy} ${x + cw},${cy}`);
-        poly.setAttribute('fill', colors[i]);
-        poly.setAttribute('opacity', '0.92');
-        svg.appendChild(poly);
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${i * 0.08}s`;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
       });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Newsletter submit
+    document.querySelector('.newsletter-btn').addEventListener('click', () => {
+      const input = document.querySelector('.newsletter-input');
+      if (input.value.includes('@')) {
+        input.value = '✓ Bedankt voor je inschrijving!';
+        input.style.color = '#1a2c6b';
+      }
     });
-    fb.appendChild(svg);
   </script>
 </body>
 </html>
