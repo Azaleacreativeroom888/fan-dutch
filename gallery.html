@@ -1,515 +1,780 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galerie – Waldmärchen Manga</title>
+  <title>Galerij — Stripwolk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --forest-deep: #1a2e1a;
-      --forest-mid: #2d5a27;
-      --forest-light: #4a8c3f;
-      --forest-pale: #7ab648;
-      --moss: #5c7a3e;
-      --fern: #3d6b35;
-      --bark: #5c3d1e;
-      --bark-light: #8b6340;
+      --delft-blue: #1a2c6b;
+      --delft-mid: #2d4a9e;
+      --delft-light: #5b7fd4;
+      --cream: #f5f0e8;
+      --warm-white: #faf8f4;
+      --tulip-red: #c0392b;
+      --tulip-accent: #e8503a;
       --gold: #c9a84c;
-      --gold-light: #e8c96e;
-      --cream: #f5edd6;
-      --cream-dark: #e8d5b0;
+      --dark: #0d1730;
+      --text-body: #2a2a3a;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Nunito', sans-serif;
-      background-color: var(--forest-deep);
-      color: var(--cream);
-      min-height: 100vh;
+      background-color: var(--warm-white);
+      color: var(--text-body);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
       overflow-x: hidden;
     }
 
     body::before {
       content: '';
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background:
-        radial-gradient(ellipse at 10% 80%, rgba(45,90,39,0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at 90% 20%, rgba(74,140,63,0.08) 0%, transparent 50%);
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(26,44,107,0.04) 79px, rgba(26,44,107,0.04) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(26,44,107,0.04) 79px, rgba(26,44,107,0.04) 80px);
       pointer-events: none; z-index: 0;
     }
 
-    /* ── NAV ── */
+    /* ─── NAV ─── */
     nav {
-      position: fixed; top: 0; left: 0;
-      width: 100%; z-index: 100;
-      padding: 16px 48px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(15,30,10,0.97), transparent);
-      backdrop-filter: blur(2px);
+      padding: 18px 48px;
+      background: rgba(245,240,232,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26,44,107,0.12);
     }
-    .nav-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.2rem; color: var(--gold); text-decoration: none; letter-spacing: 2px; }
-    .nav-logo span { color: var(--forest-pale); }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a { color: var(--cream-dark); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 1rem; letter-spacing: 1px; transition: color 0.3s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
 
-    /* ── PAGE HEADER ── */
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900; color: var(--delft-blue);
+      text-decoration: none; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 10px;
+      z-index: 201; position: relative;
+    }
+
+    .nav-logo-dot {
+      width: 10px; height: 10px; background: var(--tulip-red);
+      border-radius: 50%; display: inline-block; flex-shrink: 0;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.7; }
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--delft-blue); text-decoration: none;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 2px; background: var(--tulip-red); transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--tulip-red); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a.active { color: var(--tulip-red); }
+
+    .nav-cta {
+      background: var(--delft-blue); color: var(--cream) !important;
+      padding: 9px 22px; border-radius: 2px; transition: background 0.25s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--tulip-red) !important; }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center; align-items: center;
+      width: 44px; height: 44px; cursor: pointer; background: none; border: none;
+      padding: 8px; z-index: 201; position: relative; gap: 5px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px; background: var(--delft-blue);
+      border-radius: 2px; transition: transform 0.35s ease, opacity 0.25s ease, width 0.25s ease;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 190;
+      background: var(--delft-blue);
+      flex-direction: column; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; padding: 0 32px; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900;
+      color: var(--cream); text-decoration: none; letter-spacing: -0.02em;
+      padding: 10px 0; width: 100%; text-align: center;
+      border-bottom: 1px solid rgba(245,240,232,0.1);
+      opacity: 0; transform: translateY(20px);
+      transition: color 0.2s, opacity 0.4s ease, transform 0.4s ease;
+    }
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-child(1) { transition-delay:.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay:.10s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay:.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay:.20s; }
+    .mobile-menu.open a:nth-child(5) { transition-delay:.25s; }
+    .mobile-menu a:hover { color: var(--tulip-accent); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu-contact {
+      margin-top: 24px !important; background: var(--tulip-red); border-radius: 3px;
+      padding: 14px 40px !important; border-bottom: none !important;
+      font-size: 1rem !important; font-family: 'Space Mono', monospace !important;
+      letter-spacing: 0.1em; text-transform: uppercase; width: auto !important;
+    }
+    .mobile-menu-flag { font-size: 1.5rem; margin-top: 40px; opacity: 0; transition: opacity 0.4s 0.35s ease; }
+    .mobile-menu.open .mobile-menu-flag { opacity: 0.5; }
+
+    /* ─── PAGE HEADER ─── */
     .page-header {
-      position: relative; z-index: 10;
-      padding: 140px 48px 60px; text-align: center;
+      padding: 120px 64px 48px;
+      position: relative; z-index: 1;
+      background: var(--cream);
+      border-bottom: 6px solid var(--delft-blue);
     }
-    .page-header::after {
-      content: '';
-      position: absolute; bottom: 0; left: 10%; width: 80%; height: 1px;
-      background: linear-gradient(to right, transparent, var(--moss), var(--gold), var(--moss), transparent);
-    }
-    .page-eyebrow { font-family: 'IM Fell English', serif; font-style: italic; color: var(--forest-pale); font-size: 0.95rem; letter-spacing: 4px; margin-bottom: 12px; }
-    .page-title { font-family: 'Cinzel Decorative', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--gold); text-shadow: 0 4px 20px rgba(201,168,76,0.25); margin-bottom: 16px; }
-    .page-desc { font-family: 'IM Fell English', serif; color: var(--cream-dark); font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.8; opacity: 0.85; }
 
-    /* ── FILTER BAR ── */
+    .page-header-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--tulip-red); margin-bottom: 12px;
+    }
+
+    .page-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
+      color: var(--delft-blue); line-height: 1; letter-spacing: -0.02em;
+    }
+    .page-header-title em { font-style: italic; color: var(--tulip-accent); }
+
+    .page-header-sub {
+      font-size: 0.88rem; color: rgba(42,42,58,0.5);
+      margin-top: 12px; font-family: 'Space Mono', monospace; letter-spacing: 0.05em;
+    }
+
+    .mondrian-bar {
+      height: 6px; position: relative; z-index: 1;
+      background: linear-gradient(90deg, var(--delft-blue) 0% 40%, var(--tulip-red) 40% 60%, #f5c518 60% 75%, white 75% 100%);
+    }
+
+    /* ─── FILTER TAGS ─── */
     .filter-bar {
-      position: relative; z-index: 10;
-      max-width: 960px; margin: 40px auto 0;
-      padding: 0 40px;
-      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      padding: 28px 48px;
+      display: flex; align-items: center; gap: 10px;
+      flex-wrap: wrap;
+      position: relative; z-index: 1;
+      border-bottom: 1px solid rgba(26,44,107,0.08);
     }
+
     .filter-label {
-      font-family: 'IM Fell English', serif;
-      font-style: italic; font-size: 0.85rem;
-      color: var(--moss); letter-spacing: 2px;
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(42,42,58,0.4); margin-right: 4px;
     }
+
     .filter-btn {
-      padding: 7px 18px;
-      background: transparent;
-      border: 1px solid rgba(74,140,63,0.4);
-      border-radius: 2px;
-      font-family: 'IM Fell English', serif;
-      font-size: 0.85rem;
-      color: var(--cream-dark);
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.25s;
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: none; border: 1.5px solid rgba(26,44,107,0.2);
+      color: var(--delft-blue); padding: 6px 16px; border-radius: 100px;
+      cursor: pointer; transition: all 0.2s;
     }
-    .filter-btn:hover {
-      background: rgba(45,90,39,0.4);
-      border-color: var(--moss);
-      color: var(--forest-pale);
-    }
+    .filter-btn:hover { border-color: var(--delft-blue); background: rgba(26,44,107,0.05); }
     .filter-btn.active {
-      background: rgba(45,90,39,0.6);
-      border-color: var(--gold);
-      color: var(--gold-light);
+      background: var(--delft-blue); color: var(--cream); border-color: var(--delft-blue);
     }
 
-    /* ── GALLERY SECTION ── */
-    .gallery-section {
-      position: relative; z-index: 10;
-      max-width: 960px; margin: 28px auto 80px;
-      padding: 0 40px;
+    /* ─── MASONRY GRID ─── */
+    .masonry-wrapper {
+      padding: 40px 48px 100px;
+      position: relative; z-index: 1;
     }
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
+    .masonry {
+      columns: 4;
+      column-gap: 16px;
     }
 
-    /* ── GALLERY CARD ── */
-    .gallery-card {
-      background: linear-gradient(145deg, rgba(30,55,25,0.9), rgba(20,40,18,0.95));
-      border: 1px solid rgba(74,140,63,0.25);
-      border-radius: 4px;
+    .card {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      border-radius: 8px;
       overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      animation: fadeIn 0.4s ease both;
-    }
-    .gallery-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(201,168,76,0.4);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.45);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Art area */
-    .gallery-art {
-      width: 100%;
-      aspect-ratio: 4 / 3;
+      background: white;
+      border: 1px solid rgba(26,44,107,0.07);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
-      overflow: hidden;
+    }
+
+    .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,44,107,0.14); }
+
+    /* The image placeholder (colored block with emoji) */
+    .card-img {
+      width: 100%;
       display: flex; align-items: center; justify-content: center;
-      border-bottom: 1px solid rgba(74,140,63,0.2);
-    }
-    .gallery-art svg {
-      width: 100%; height: 100%;
-      display: block;
+      font-size: clamp(48px, 6vw, 80px);
+      position: relative; overflow: hidden;
     }
 
-    /* Manga image link (for real manga pages) */
-    .gallery-art a.manga-link {
-      display: block; width: 100%; height: 100%;
+    .card-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(13,23,48,0.55) 100%);
+      opacity: 0; transition: opacity 0.3s;
     }
-    .gallery-art a.manga-link img {
-      width: 100%; height: 100%;
-      object-fit: contain; object-position: center;
-      display: block;
+    .card:hover .card-img::after { opacity: 1; }
+
+    /* Type badge */
+    .card-type {
+      position: absolute; top: 10px; left: 10px; z-index: 2;
+      font-family: 'Space Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+      backdrop-filter: blur(6px);
+    }
+    .card-type.manga { background: rgba(26,44,107,0.85); color: var(--cream); }
+    .card-type.illust { background: rgba(192,57,43,0.85); color: white; }
+
+    /* Hover overlay info */
+    .card-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      padding: 16px 14px 14px;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .card:hover .card-overlay { opacity: 1; transform: translateY(0); }
+
+    .card-overlay-title {
+      font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700;
+      color: white; line-height: 1.2; margin-bottom: 2px;
+    }
+    .card-overlay-meta {
+      font-family: 'Space Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.65);
     }
 
-    /* Read badge overlay */
-    .read-badge {
-      position: absolute; bottom: 10px; right: 10px;
-      background: rgba(45,90,39,0.92);
-      color: var(--forest-pale);
-      font-family: 'IM Fell English', serif;
-      font-size: 0.7rem; letter-spacing: 2px;
-      padding: 4px 12px;
-      border: 1px solid rgba(74,140,63,0.5);
-      border-radius: 2px;
-      transition: background 0.25s, color 0.25s;
-      pointer-events: none;
-    }
-    .gallery-card:hover .read-badge {
-      background: rgba(201,168,76,0.85);
-      color: var(--forest-deep);
-      border-color: var(--gold);
+    .card-body { padding: 14px; }
+
+    .card-title {
+      font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--delft-blue); margin-bottom: 4px; line-height: 1.25;
     }
 
-    /* Info */
-    .gallery-info {
-      padding: 16px 18px 20px;
-      flex: 1; display: flex; flex-direction: column;
-    }
-    .gallery-tag {
-      display: inline-block;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.65rem; font-weight: 800;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 2px;
-      margin-bottom: 10px; align-self: flex-start;
-    }
-    .tag-comic   { background: rgba(45,90,39,0.5);   color: var(--forest-pale); border: 1px solid rgba(74,140,63,0.4); }
-    .tag-culture { background: rgba(201,168,76,0.15); color: var(--gold-light);  border: 1px solid rgba(201,168,76,0.3); }
-    .tag-idiom   { background: rgba(92,122,62,0.25);  color: var(--moss);        border: 1px solid rgba(92,122,62,0.4); }
-    .tag-holiday { background: rgba(92,61,30,0.35);   color: var(--bark-light);  border: 1px solid rgba(139,99,64,0.4); }
-
-    .gallery-info h3 {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 0.95rem; color: var(--cream);
-      line-height: 1.35; margin-bottom: 8px;
-    }
-    .gallery-info p {
-      font-size: 0.82rem; line-height: 1.7;
-      color: var(--cream-dark); opacity: 0.75; flex: 1;
+    .card-meta {
+      font-family: 'Space Mono', monospace; font-size: 0.58rem;
+      color: rgba(42,42,58,0.4); letter-spacing: 0.06em;
     }
 
-    /* ── SUBMIT BANNER ── */
-    .submit-banner {
-      position: relative; z-index: 10;
-      max-width: 960px; margin: 0 auto 80px;
-      padding: 0 40px;
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(13,23,48,0.92);
+      align-items: center; justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(8px);
     }
-    .submit-inner {
-      background: linear-gradient(135deg, rgba(45,90,39,0.5), rgba(30,60,25,0.6));
-      border: 1px solid rgba(74,140,63,0.3);
-      border-radius: 4px;
-      padding: 36px 32px;
-      text-align: center;
-    }
-    .submit-inner h3 {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.3rem; color: var(--gold);
-      margin-bottom: 10px;
-    }
-    .submit-inner p {
-      font-family: 'IM Fell English', serif;
-      font-size: 0.95rem; color: var(--cream-dark);
-      opacity: 0.8; line-height: 1.7; max-width: 500px;
-      margin: 0 auto 20px;
-    }
-    .coming-badge {
-      display: inline-block;
-      background: rgba(201,168,76,0.15);
-      color: var(--gold-light);
-      font-family: 'IM Fell English', serif;
-      font-style: italic; font-size: 0.9rem;
-      padding: 8px 24px;
-      border: 1px solid rgba(201,168,76,0.35);
-      border-radius: 2px; letter-spacing: 2px;
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      background: var(--warm-white);
+      border-radius: 10px; overflow: hidden;
+      max-width: 640px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      animation: lbIn 0.3s ease;
     }
 
-    /* ── FOOTER ── */
-    footer { position: relative; z-index: 10; text-align: center; padding: 36px 24px 28px; border-top: 1px solid rgba(74,140,63,0.15); }
-    .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 16px; }
-    .footer-links a { color: var(--moss); text-decoration: none; font-family: 'IM Fell English', serif; font-size: 0.9rem; transition: color 0.3s; }
-    .footer-links a:hover { color: var(--gold-light); }
-    .footer-copy { color: rgba(92,122,62,0.5); font-size: 0.78rem; letter-spacing: 1px; }
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.94); }
+      to { opacity: 1; transform: scale(1); }
+    }
 
+    .lightbox-img {
+      width: 100%; min-height: 280px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 120px;
+    }
+
+    .lightbox-body { padding: 24px 28px 28px; }
+
+    .lightbox-type {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .lightbox-type.manga { color: var(--delft-mid); }
+    .lightbox-type.illust { color: var(--tulip-red); }
+
+    .lightbox-title {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      font-weight: 900; color: var(--delft-blue); margin-bottom: 8px; line-height: 1.1;
+    }
+
+    .lightbox-date {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      color: rgba(42,42,58,0.4); letter-spacing: 0.08em; margin-bottom: 16px;
+    }
+
+    .lightbox-desc { font-size: 0.92rem; line-height: 1.75; color: rgba(42,42,58,0.75); }
+
+    .lightbox-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(13,23,48,0.6); border: none; color: white;
+      font-size: 1.1rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      transition: background 0.2s; z-index: 1;
+    }
+    .lightbox-close:hover { background: var(--tulip-red); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark); padding: 40px 64px 28px;
+      position: relative; z-index: 1;
+    }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.1em; color: rgba(245,240,232,0.25);
+    }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(245,240,232,0.35); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--cream); }
+
+    /* ─── HIDDEN (filter) ─── */
+    .card.hidden { display: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .masonry { columns: 3; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .page-header { padding: 100px 32px 40px; }
+      .filter-bar { padding: 20px 24px; }
+      .masonry-wrapper { padding: 28px 24px 80px; }
+      .masonry { columns: 2; }
+      footer { padding: 32px 32px 24px; }
+    }
     @media (max-width: 600px) {
-      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 16px; }
-      .filter-bar, .gallery-section, .submit-banner { padding: 0 20px; }
+      nav { padding: 14px 20px; }
+      .nav-logo { font-size: 1.3rem; }
+      .page-header { padding: 90px 20px 36px; }
+      .filter-bar { padding: 16px 20px; gap: 8px; }
+      .masonry-wrapper { padding: 20px 16px 64px; }
+      .masonry { columns: 2; column-gap: 10px; }
+      .card { margin-bottom: 10px; }
+      footer { padding: 28px 20px 20px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-nav { flex-wrap: wrap; justify-content: center; gap: 16px; }
+      .lightbox-inner { border-radius: 6px; }
+      .lightbox-img { min-height: 200px; font-size: 80px; }
+    }
+    @media (max-width: 400px) {
+      .masonry { columns: 1; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
-    <a href="index.html" class="nav-logo">Wald<span>märchen</span></a>
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      Stripwolk
+    </a>
     <ul class="nav-links">
-      <li><a href="index.html">Startseite</a></li>
-      <li><a href="translation.html">Übersetzung</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html" class="active">Galerij</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="gallery.html" class="active">Galerie</a></li>
-      <li><a href="contact.html">Kontakt</a></li>
+      <li><a href="translation.html">Vertaallog</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu openen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
-  <div class="page-header">
-    <p class="page-eyebrow">✦ Bilderwelt ✦</p>
-    <h1 class="page-title">Galerie</h1>
-    <p class="page-desc">English culture, illustrated. Comics, art & visual notes from the enchanted forest.</p>
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigatiemenu">
+    <nav class="mobile-menu-inner">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Galerij</a>
+      <a href="blog.html">Blog</a>
+      <a href="translation.html">Vertaallog</a>
+      <a href="contact.html" class="mobile-menu-contact">Contact</a>
+    </nav>
+    <div class="mobile-menu-flag">🇳🇱</div>
   </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-eyebrow">✦ Werk</div>
+    <h1 class="page-header-title">Gale<em>rij</em></h1>
+    <div class="page-header-sub">Manga &amp; illustraties — klik voor meer info</div>
+  </div>
+  <div class="mondrian-bar"></div>
 
   <!-- FILTER BAR -->
   <div class="filter-bar">
     <span class="filter-label">Filter:</span>
-    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
-    <button class="filter-btn" onclick="filterGallery('comic', this)">📖 Comic</button>
-    <button class="filter-btn" onclick="filterGallery('culture', this)">🌍 Culture</button>
-    <button class="filter-btn" onclick="filterGallery('idiom', this)">💬 Idioms</button>
-    <button class="filter-btn" onclick="filterGallery('holiday', this)">🎉 Holidays</button>
+    <button class="filter-btn active" data-filter="all">Alles</button>
+    <button class="filter-btn" data-filter="manga">Manga</button>
+    <button class="filter-btn" data-filter="illust">Illustraties</button>
   </div>
 
-  <!-- GALLERY GRID -->
-  <div class="gallery-section">
-    <div class="gallery-grid" id="galleryGrid">
+  <!-- MASONRY GRID -->
+  <div class="masonry-wrapper">
+    <div class="masonry" id="masonry">
 
-      <!-- Card 1: The Kappa (real manga page) -->
-      <div class="gallery-card" data-tag="comic">
-        <div class="gallery-art">
-          <a class="manga-link" href="manga11-1.html">
-            <img src="河童 英語_001.jpg" alt="The Kappa">
-          </a>
-          <span class="read-badge">▶ READ NOW</span>
+      <!-- CARD 1 -->
+      <div class="card" data-type="manga"
+        data-title="Tulpenstad — H.1 cover"
+        data-date="mei 2026"
+        data-desc="Het omslagblad voor het eerste hoofdstuk van Tulpenstad. Een fantasieverhaal over een meisje dat een verborgen wereld ontdekt onder de Amsterdamse grachten."
+        data-color="#c9e0f5"
+        data-emoji="🌷"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#c9e0f5; height:260px">🌷</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Tulpenstad — H.1 cover</div>
+          <div class="card-overlay-meta">mei 2026</div>
         </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-comic">📖 Comic</span>
-          <h3>The "Kappa"</h3>
-          <p>A manga story featuring the legendary Japanese water creature — reimagined and translated into English.</p>
+        <div class="card-body">
+          <div class="card-title">Tulpenstad — H.1 cover</div>
+          <div class="card-meta">Manga · mei 2026</div>
         </div>
       </div>
 
-      <!-- Card 2: The Last Idol (real manga page) -->
-      <div class="gallery-card" data-tag="comic">
-        <div class="gallery-art">
-          <a class="manga-link" href="manga4-1.html">
-            <img src="manga4-page1-en.jpg" alt="The Last Idol">
-          </a>
-          <span class="read-badge">▶ READ NOW</span>
+      <!-- CARD 2 -->
+      <div class="card" data-type="illust"
+        data-title="Kanaalmeisje"
+        data-date="april 2026"
+        data-desc="Een losse illustratie geïnspireerd door de Amsterdamse grachten bij zonsondergang. Gemaakt als warmup-schets die uit de hand liep."
+        data-color="#fde8c8"
+        data-emoji="🌅"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#fde8c8; height:340px">🌅</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Kanaalmeisje</div>
+          <div class="card-overlay-meta">april 2026</div>
         </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-comic">📖 Comic</span>
-          <h3>The Last Idol</h3>
-          <p>An English-translated manga about idols, dreams, and the pressure of the spotlight.</p>
-        </div>
-      </div>
-
-      <!-- Card 3: Halloween Night (SVG) -->
-      <div class="gallery-card" data-tag="holiday">
-        <div class="gallery-art">
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-            <rect width="320" height="240" fill="#1a0a2e"/>
-            <circle cx="260" cy="45" r="30" fill="#FFF3A3"/>
-            <circle cx="272" cy="35" r="24" fill="#1a0a2e"/>
-            <rect x="0" y="175" width="320" height="65" fill="#0d1f0d"/>
-            <ellipse cx="80" cy="178" rx="30" ry="26" fill="#D76B2B"/>
-            <ellipse cx="65" cy="178" rx="18" ry="22" fill="#c55a1e"/>
-            <ellipse cx="95" cy="178" rx="18" ry="22" fill="#c55a1e"/>
-            <rect x="77" y="152" width="6" height="16" rx="3" fill="#2C6B3A"/>
-            <polygon points="70,172 76,165 82,172" fill="#1a0a2e"/>
-            <polygon points="85,172 91,165 97,172" fill="#1a0a2e"/>
-            <path d="M68 184 Q80 196 92 184" stroke="#1a0a2e" stroke-width="3" fill="none"/>
-            <ellipse cx="80" cy="178" rx="30" ry="26" fill="#F5C518" opacity="0.12"/>
-            <ellipse cx="210" cy="120" rx="32" ry="36" fill="rgba(255,255,255,0.92)"/>
-            <rect x="178" y="120" width="64" height="32" fill="rgba(255,255,255,0.92)"/>
-            <circle cx="195" cy="146" r="8" fill="rgba(255,255,255,0.92)"/>
-            <circle cx="225" cy="148" r="8" fill="rgba(255,255,255,0.92)"/>
-            <circle cx="200" cy="118" r="5" fill="#1a0a2e"/>
-            <circle cx="220" cy="118" r="5" fill="#1a0a2e"/>
-            <path d="M204 132 Q210 140 216 132" stroke="#1a0a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <text x="30" y="80" font-size="18">🦇</text>
-            <text x="140" y="60" font-size="14">🦇</text>
-            <text x="160" y="230" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="13" fill="#F5C518">Halloween 🎃</text>
-          </svg>
-        </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-holiday">🎉 Holiday</span>
-          <h3>Halloween Night</h3>
-          <p>Jack-o'-lanterns, ghosts, and "Trick or Treat" — Halloween is a staple of American fall culture that shows up constantly in English media.</p>
+        <div class="card-body">
+          <div class="card-title">Kanaalmeisje</div>
+          <div class="card-meta">Illustratie · april 2026</div>
         </div>
       </div>
 
-      <!-- Card 4: The AHA Moment (SVG comic) -->
-      <div class="gallery-card" data-tag="comic">
-        <div class="gallery-art">
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-            <rect width="320" height="240" fill="#fff"/>
-            <rect x="8" y="8" width="144" height="108" fill="#FFF3A3" stroke="#3B1F0A" stroke-width="3"/>
-            <rect x="168" y="8" width="144" height="108" fill="#d4eaff" stroke="#3B1F0A" stroke-width="3"/>
-            <rect x="8" y="128" width="304" height="104" fill="#ffe0e0" stroke="#3B1F0A" stroke-width="3"/>
-            <circle cx="80" cy="55" r="22" fill="#F5C518" stroke="#3B1F0A" stroke-width="2.5"/>
-            <circle cx="72" cy="50" r="3.5" fill="#3B1F0A"/>
-            <circle cx="88" cy="50" r="3.5" fill="#3B1F0A"/>
-            <path d="M72 66 Q80 72 88 66" stroke="#3B1F0A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <rect x="55" y="82" width="50" height="28" rx="3" fill="#fff" stroke="#3B1F0A" stroke-width="2"/>
-            <line x1="80" y1="82" x2="80" y2="110" stroke="#3B1F0A" stroke-width="1.5"/>
-            <line x1="62" y1="90" x2="77" y2="90" stroke="#3B1F0A" stroke-width="1"/>
-            <line x1="62" y1="96" x2="77" y2="96" stroke="#3B1F0A" stroke-width="1"/>
-            <line x1="83" y1="90" x2="98" y2="90" stroke="#3B1F0A" stroke-width="1"/>
-            <text x="80" y="30" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="10" fill="#3B1F0A">STUDYING...</text>
-            <circle cx="240" cy="58" r="22" fill="#F5C518" stroke="#3B1F0A" stroke-width="2.5"/>
-            <circle cx="232" cy="53" r="3.5" fill="#3B1F0A"/>
-            <circle cx="248" cy="53" r="3.5" fill="#3B1F0A"/>
-            <path d="M232 68 Q240 76 248 68" stroke="#3B1F0A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="240" cy="22" r="10" fill="#F5C518" stroke="#3B1F0A" stroke-width="2"/>
-            <rect x="236" y="30" width="8" height="4" rx="1" fill="#3B1F0A"/>
-            <line x1="240" y1="10" x2="240" y2="6" stroke="#F5C518" stroke-width="2.5"/>
-            <line x1="252" y1="15" x2="256" y2="12" stroke="#F5C518" stroke-width="2.5"/>
-            <line x1="228" y1="15" x2="224" y2="12" stroke="#F5C518" stroke-width="2.5"/>
-            <text x="240" y="20" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#3B1F0A" font-weight="bold">AHA!</text>
-            <text x="160" y="175" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="22" fill="#D72B2B">I GOT IT!!</text>
-            <text x="160" y="205" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#3B1F0A">"Break a leg" = Good luck!</text>
-            <text x="40" y="185" font-size="20">⭐</text>
-            <text x="260" y="185" font-size="20">⭐</text>
-            <text x="100" y="165" font-size="14">✦</text>
-            <text x="210" y="165" font-size="14">✦</text>
-          </svg>
+      <!-- CARD 3 -->
+      <div class="card" data-type="manga"
+        data-title="Poldergeest — pagina 03"
+        data-date="maart 2026"
+        data-desc="Pagina drie van het eerste hoofdstuk van Poldergeest. De scène waarbij de hoofdpersoon voor het eerst de geest onder de dijk ziet."
+        data-color="#d5e8d4"
+        data-emoji="🌊"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#d5e8d4; height:200px">🌊</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Poldergeest — pagina 03</div>
+          <div class="card-overlay-meta">maart 2026</div>
         </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-comic">📖 Comic</span>
-          <h3>The AHA Moment</h3>
-          <p>A 3-panel comic about learning an English idiom — that moment when confusing words finally click into place.</p>
+        <div class="card-body">
+          <div class="card-title">Poldergeest — pagina 03</div>
+          <div class="card-meta">Manga · maart 2026</div>
         </div>
       </div>
 
-      <!-- Card 5: American BBQ (SVG culture) -->
-      <div class="gallery-card" data-tag="culture">
-        <div class="gallery-art">
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-            <rect width="320" height="240" fill="#87CEEB"/>
-            <ellipse cx="80" cy="40" rx="45" ry="20" fill="white" opacity="0.9"/>
-            <ellipse cx="260" cy="55" rx="38" ry="16" fill="white" opacity="0.8"/>
-            <rect x="0" y="165" width="320" height="75" fill="#4a8c2a"/>
-            <rect x="90" y="130" width="140" height="40" rx="8" fill="#2a2a2a"/>
-            <rect x="100" y="120" width="120" height="15" rx="4" fill="#1a1a1a"/>
-            <rect x="110" y="170" width="10" height="35" fill="#2a2a2a" rx="2"/>
-            <rect x="200" y="170" width="10" height="35" fill="#2a2a2a" rx="2"/>
-            <ellipse cx="140" cy="128" rx="10" ry="14" fill="#D72B2B" opacity="0.8"/>
-            <ellipse cx="140" cy="128" rx="6" ry="10" fill="#F5C518"/>
-            <ellipse cx="165" cy="126" rx="9" ry="12" fill="#D72B2B" opacity="0.8"/>
-            <ellipse cx="165" cy="126" rx="5" ry="8" fill="#F5C518"/>
-            <ellipse cx="190" cy="128" rx="10" ry="13" fill="#D72B2B" opacity="0.8"/>
-            <ellipse cx="190" cy="128" rx="6" ry="9" fill="#F5C518"/>
-            <rect x="125" y="115" width="28" height="10" rx="5" fill="#8B4513"/>
-            <rect x="167" y="115" width="28" height="10" rx="5" fill="#8B4513"/>
-            <circle cx="140" cy="95" r="8" fill="rgba(200,200,200,0.5)"/>
-            <circle cx="148" cy="80" r="10" fill="rgba(200,200,200,0.4)"/>
-            <circle cx="165" cy="88" r="8" fill="rgba(200,200,200,0.5)"/>
-            <circle cx="48" cy="155" r="14" fill="#3B1F0A"/>
-            <rect x="38" y="169" width="20" height="30" rx="5" fill="#3B1F0A"/>
-            <circle cx="272" cy="152" r="14" fill="#5c3317"/>
-            <rect x="262" y="166" width="20" height="30" rx="5" fill="#5c3317"/>
-            <rect x="80" y="215" width="160" height="22" rx="4" fill="rgba(255,255,255,0.7)"/>
-            <text x="160" y="230" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="12" fill="#3B1F0A">Summer BBQ 🍔</text>
-          </svg>
+      <!-- CARD 4 -->
+      <div class="card" data-type="illust"
+        data-title="Tulpenportret"
+        data-date="maart 2026"
+        data-desc="Karakterstudie voor de hoofdpersoon van Tulpenstad. Meerdere varianten geprobeerd — dit was de winnende pose."
+        data-color="#f5d5d5"
+        data-emoji="🎨"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#f5d5d5; height:290px">🎨</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Tulpenportret</div>
+          <div class="card-overlay-meta">maart 2026</div>
         </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-culture">🌍 Culture</span>
-          <h3>The American BBQ</h3>
-          <p>Backyard grilling is practically a religion in America. Burgers, hot dogs, and lawn chairs — a cultural staple you'll see in countless shows and movies.</p>
+        <div class="card-body">
+          <div class="card-title">Tulpenportret</div>
+          <div class="card-meta">Illustratie · maart 2026</div>
         </div>
       </div>
 
-      <!-- Card 6: Break a Leg (SVG idiom) -->
-      <div class="gallery-card" data-tag="idiom">
-        <div class="gallery-art">
-          <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-            <rect width="320" height="240" fill="#2C6B3A"/>
-            <rect x="40" y="150" width="240" height="18" rx="4" fill="#5c3317"/>
-            <rect x="20" y="168" width="280" height="12" rx="3" fill="#3d2010"/>
-            <ellipse cx="100" cy="140" rx="55" ry="30" fill="rgba(245,197,24,0.15)"/>
-            <ellipse cx="220" cy="140" rx="55" ry="30" fill="rgba(245,197,24,0.15)"/>
-            <circle cx="160" cy="95" r="22" fill="#F5C518" stroke="#3B1F0A" stroke-width="2.5"/>
-            <circle cx="152" cy="90" r="4" fill="#3B1F0A"/>
-            <circle cx="168" cy="90" r="4" fill="#3B1F0A"/>
-            <path d="M152 106 Q160 115 168 106" stroke="#3B1F0A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <ellipse cx="160" cy="73" rx="20" ry="6" fill="#1a1a1a"/>
-            <rect x="146" y="44" width="28" height="30" rx="2" fill="#1a1a1a"/>
-            <line x1="138" y1="120" x2="112" y2="100" stroke="#3B1F0A" stroke-width="5" stroke-linecap="round"/>
-            <line x1="182" y1="120" x2="208" y2="100" stroke="#3B1F0A" stroke-width="5" stroke-linecap="round"/>
-            <text x="55" y="75" font-size="18">⭐</text>
-            <text x="245" y="80" font-size="16">✨</text>
-            <text x="80" y="115" font-size="14">✦</text>
-            <text x="228" y="110" font-size="14">✦</text>
-            <rect x="30" y="195" width="260" height="36" rx="6" fill="rgba(0,0,0,0.4)"/>
-            <text x="160" y="212" text-anchor="middle" font-family="sans-serif" font-style="italic" font-size="12" fill="#F5C518">"Break a leg!"</text>
-            <text x="160" y="226" text-anchor="middle" font-family="sans-serif" font-size="10" fill="rgba(255,255,255,0.7)">= Good luck! (theatre idiom)</text>
-          </svg>
+      <!-- CARD 5 -->
+      <div class="card" data-type="manga"
+        data-title="Windkind — H.1 cover"
+        data-date="februari 2026"
+        data-desc="Omslagblad voor Windkind. Een rustig verhaal over vriendschap langs de Zeeuwse kust. De compositie is geïnspireerd op Japanse slice-of-life manga."
+        data-color="#e8f0fa"
+        data-emoji="🌿"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#e8f0fa; height:310px">🌿</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Windkind — H.1 cover</div>
+          <div class="card-overlay-meta">februari 2026</div>
         </div>
-        <div class="gallery-info">
-          <span class="gallery-tag tag-idiom">💬 Idiom</span>
-          <h3>"Break a Leg!"</h3>
-          <p>Actors say this before a performance as a way of wishing good luck — saying "good luck" directly is actually considered bad luck on stage.</p>
+        <div class="card-body">
+          <div class="card-title">Windkind — H.1 cover</div>
+          <div class="card-meta">Manga · februari 2026</div>
         </div>
       </div>
 
-    </div><!-- /.gallery-grid -->
+      <!-- CARD 6 -->
+      <div class="card" data-type="illust"
+        data-title="Molen bij nacht"
+        data-date="februari 2026"
+        data-desc="Sfeerillustatie van een molen bij maanlicht. Geschilderd als achtergrondoefening voor Windkind."
+        data-color="#1a2c6b"
+        data-emoji="⚙️"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#1a2c6b; height:230px">⚙️</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Molen bij nacht</div>
+          <div class="card-overlay-meta">februari 2026</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Molen bij nacht</div>
+          <div class="card-meta">Illustratie · februari 2026</div>
+        </div>
+      </div>
 
-    <!-- Submit Banner -->
-    <div class="submit-banner" style="margin-top: 40px;">
-      <div class="submit-inner">
-        <h3>🎨 Got Art to Share?</h3>
-        <p>Future submissions will be open — illustrations, mini-comics, or any visual exploration of English culture. Stay tuned!</p>
-        <span class="coming-badge">✦ Submissions Coming Soon ✦</span>
+      <!-- CARD 7 -->
+      <div class="card" data-type="manga"
+        data-title="Kanaaldromen — schets"
+        data-date="januari 2026"
+        data-desc="Vroege schets voor Kanaaldromen. Het verhaal speelt zich af in een parallelle versie van Amsterdam. Dit is een kladversie van de openingsscène."
+        data-color="#e8e0f5"
+        data-emoji="⭐"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#e8e0f5; height:270px">⭐</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Kanaaldromen — schets</div>
+          <div class="card-overlay-meta">januari 2026</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Kanaaldromen — schets</div>
+          <div class="card-meta">Manga · januari 2026</div>
+        </div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="card" data-type="illust"
+        data-title="Delfts blauw studie"
+        data-date="januari 2026"
+        data-desc="Kleurenstudie geïnspireerd op Delfts blauw aardewerk. Geoefend met monochrome blauwtinten als basis voor de kleurstijl van Stripwolk."
+        data-color="#dde8f8"
+        data-emoji="🏺"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#dde8f8; height:220px">🏺</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Delfts blauw studie</div>
+          <div class="card-overlay-meta">januari 2026</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Delfts blauw studie</div>
+          <div class="card-meta">Illustratie · januari 2026</div>
+        </div>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="card" data-type="manga"
+        data-title="Poldergeest — H.1 cover"
+        data-date="december 2025"
+        data-desc="Het definitieve omslagblad voor het eerste hoofdstuk van Poldergeest. Na tien versies eindelijk tevreden met de compositie."
+        data-color="#2c4a2e"
+        data-emoji="🌑"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#2c4a2e; height:300px">🌑</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Poldergeest — H.1 cover</div>
+          <div class="card-overlay-meta">december 2025</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Poldergeest — H.1 cover</div>
+          <div class="card-meta">Manga · december 2025</div>
+        </div>
+      </div>
+
+      <!-- CARD 10 -->
+      <div class="card" data-type="illust"
+        data-title="Herfstgracht"
+        data-date="november 2025"
+        data-desc="Seizoensillustatie: een Amsterdamse gracht in de herfst. Bladeren op het water, gele bomen. Oefening voor perspectief en sfeerverlichting."
+        data-color="#f5e8c8"
+        data-emoji="🍂"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#f5e8c8; height:250px">🍂</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Herfstgracht</div>
+          <div class="card-overlay-meta">november 2025</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Herfstgracht</div>
+          <div class="card-meta">Illustratie · november 2025</div>
+        </div>
+      </div>
+
+      <!-- CARD 11 -->
+      <div class="card" data-type="manga"
+        data-title="Windkind — pagina 07"
+        data-date="oktober 2025"
+        data-desc="Een stille pagina zonder tekst — twee personages kijken samen naar de zee. Stille panelen zijn mijn favoriet om te tekenen."
+        data-color="#d0e8f0"
+        data-emoji="🌬️"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#d0e8f0; height:240px">🌬️</div>
+        <span class="card-type manga">Manga</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Windkind — pagina 07</div>
+          <div class="card-overlay-meta">oktober 2025</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Windkind — pagina 07</div>
+          <div class="card-meta">Manga · oktober 2025</div>
+        </div>
+      </div>
+
+      <!-- CARD 12 -->
+      <div class="card" data-type="illust"
+        data-title="Stripwolk logo-schets"
+        data-date="september 2025"
+        data-desc="Allereerste logostudie voor Stripwolk. Het idee: een wolk met een komische tekstballon erin. Simpel, herkenbaar, Nederlands."
+        data-color="#e8f5e8"
+        data-emoji="☁️"
+        onclick="openLightbox(this)">
+        <div class="card-img" style="background:#e8f5e8; height:200px">☁️</div>
+        <span class="card-type illust">Illustratie</span>
+        <div class="card-overlay">
+          <div class="card-overlay-title">Stripwolk logo-schets</div>
+          <div class="card-overlay-meta">september 2025</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Stripwolk logo-schets</div>
+          <div class="card-meta">Illustratie · september 2025</div>
+        </div>
+      </div>
+
+    </div><!-- /masonry -->
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <div class="lightbox-img" id="lb-img"></div>
+      <div class="lightbox-body">
+        <div class="lightbox-type" id="lb-type"></div>
+        <div class="lightbox-title" id="lb-title"></div>
+        <div class="lightbox-date" id="lb-date"></div>
+        <div class="lightbox-desc" id="lb-desc"></div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /.gallery-section -->
-
+  <!-- FOOTER -->
   <footer>
-    <div class="footer-links">
-      <a href="index.html">Startseite</a>
-      <a href="translation.html">Übersetzung</a>
-      <a href="blog.html">Blog</a>
-      <a href="gallery.html">Galerie</a>
-      <a href="contact.html">Kontakt</a>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Stripwolk. Alle rechten voorbehouden. 🇳🇱</div>
+      <ul class="footer-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="translation.html">Vertaallog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
     </div>
-    <p class="footer-copy">© 2026 Waldmärchen · Mit ♥ und Magie gemacht</p>
   </footer>
 
   <script>
-    function filterGallery(tag, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cards = document.querySelectorAll('.gallery-card');
-      cards.forEach(card => {
-        if (tag === 'all' || card.dataset.tag === tag) {
-          card.style.display = 'flex';
-          card.style.animation = 'none';
-          setTimeout(() => { card.style.animation = 'fadeIn 0.35s ease'; }, 10);
-        } else {
-          card.style.display = 'none';
-        }
+    // ─── HAMBURGER ───
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function openMenu() {
+      hamburger.classList.add('open');
+      mobileMenu.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); closeMenu(); } });
+
+    // ─── FILTER ───
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.card').forEach(card => {
+          if (f === 'all' || card.dataset.type === f) card.classList.remove('hidden');
+          else card.classList.add('hidden');
+        });
       });
+    });
+
+    // ─── LIGHTBOX ───
+    function openLightbox(card) {
+      const lb = document.getElementById('lightbox');
+      const type = card.dataset.type;
+      document.getElementById('lb-img').style.background = card.dataset.color;
+      document.getElementById('lb-img').textContent = card.dataset.emoji;
+      document.getElementById('lb-type').textContent = type === 'manga' ? 'Manga' : 'Illustratie';
+      document.getElementById('lb-type').className = 'lightbox-type ' + type;
+      document.getElementById('lb-title').textContent = card.dataset.title;
+      document.getElementById('lb-date').textContent = card.dataset.date;
+      document.getElementById('lb-desc').textContent = card.dataset.desc;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeLightboxOutside(e) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
     }
   </script>
 </body>
